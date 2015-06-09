@@ -176,9 +176,10 @@
 								</div>
 								<div class="panel-body">
 									<div id="system_load" style="margin-bottom:-10px"></div>	
-								<!--	<h4 class="exoextralight">Memory</h4>
+									
+									<h4 class="exoextralight">Memory</h4>
 									<div id="system_ram" style="height:40px"></div>
-									<hr>	-->
+									
 								</div>
 							</div>
 							<!-- Storage Panel -->
