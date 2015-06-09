@@ -636,7 +636,7 @@ function getBandwidth($interface)
 		$txRateMB = $txRate;
 	}
 
-	return array(floatval($rxRateMB), floatval($txRateMB);
+	return array(floatval($rxRateMB), floatval($txRateMB));
 }
 
 function getPing($sourceIP,$destinationIP)
