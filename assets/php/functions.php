@@ -374,7 +374,7 @@ function makeRecenlyViewed()
 	$traktThumb = '/var/www/hill364.net/public_html/assets/caches/thumbnails/all-tvthumb.jpg';
 
 	echo '<div class="col-md-12">';
-	echo '<a href="http://trakt.tv/user/'.$trakt_username.'" class="thumbnail">';
+	echo '<a href="http://trakt.tv/users/'.$trakt_username.'" class="thumbnail">';
 	if (file_exists($traktThumb) && (filemtime($traktThumb) > (time() - 60 * 15))) {
 		// Trakt image is less than 15 minutes old.
 		// Don't refresh the image, just use the file as-is.
