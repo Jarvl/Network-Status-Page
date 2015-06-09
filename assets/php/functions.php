@@ -703,8 +703,8 @@ function getBandwidth($interface)
 		//exit('Login Failed');
 		return array(0,0);
 	}
-
-	$dump = $ssh->exec('vnstat -i '.$interface.' -tr');
+*/
+	$dump = shell_exec('vnstat -i '.$interface.' -tr');
 	$output = preg_split('/[,;| \s]/', $dump);
 	for ($i=count($output)-1; $i>=0; $i--) {
 		if ($output[$i] == '') unset ($output[$i]);
@@ -723,7 +723,7 @@ function getBandwidth($interface)
 		$txRateMB = $txRate / 1024;
 	} else {
 		$txRateMB = $txRate;
-	}*/
+	}
 
 	// Shell output is in bytes
 	$rxRate = trim(shell_exec("cat /sys/class/net/".$interface."/statistics/rx_bytes"));
