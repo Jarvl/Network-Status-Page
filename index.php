@@ -107,7 +107,6 @@
 			}
 			/* End of Ping ID hack */
 		</style>
-		<link rel="apple-touch-icon-precomposed" href="/assets/ico/apple-touch-icon.png" />
 		<link rel="shortcut icon" href="assets/ico/favicon.ico">
 	</head>
 	<body>
@@ -203,7 +202,7 @@
 				</div>
 			</div>
 		</div>
-		<!-- Contact modal -->
+		<!-- Contact modal --><!--
 		<div id="contactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -220,7 +219,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>-->
 		<!-- Invisible php div-->
 		<div id="plex_check"></div>
 
