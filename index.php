@@ -5,7 +5,6 @@
 
 	include 'init.php';
 	include ROOT_DIR . '/assets/php/Mobile_Detect.php';
-	//include_once(ROOT_DIR . "/assets/php/analyticstracking.php");
 
 	$detect = new Mobile_Detect;
 ?>
