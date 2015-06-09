@@ -80,7 +80,7 @@ function makeTotalDiskSpace()
 function byteFormat($bytes, $unit = "", $decimals = 2) {
 	$units = array('B' => 0, 'KB' => 1, 'MB' => 2, 'GB' => 3, 'TB' => 4, 
 			'PB' => 5, 'EB' => 6, 'ZB' => 7, 'YB' => 8);
- 
+
 	$value = 0;
 	if ($bytes > 0) {
 		// Generate automatic prefix by bytes 
@@ -89,22 +89,22 @@ function byteFormat($bytes, $unit = "", $decimals = 2) {
 			$pow = floor(log($bytes)/log(1000));
 			$unit = array_search($pow, $units);
 		}
- 
+
 		// Calculate byte value by prefix
 		$value = ($bytes/pow(1000,floor($units[$unit])));
 	}
- 
+
 	// If decimals is not numeric or decimals is less than 0 
 	// then set default value
 	if (!is_numeric($decimals) || $decimals < 0) {
 		$decimals = 2;
 	}
- 
+
 	// Format output
 	return sprintf('%.' . $decimals . 'f '.$unit, $value);
-  }
+}
 
-  function autoByteFormat($bytes) {
+function autoByteFormat($bytes) {
   	// If we are working with more than 0 and less than 1000GB (Apple filesystem).
   	if (($bytes >= 0) && ($bytes < 1000000000000)) {
   		$unit = 'GB';
@@ -409,6 +409,7 @@ function makeRecenlyReleased()
 	// Various items are commented out as I was playing with what information to include.
 	$network = getNetwork("plex");
 	$clientIP = get_client_ip();
+	// This might need to be changed from recently added
 	$plexNewestXML = simplexml_load_file($network.'/library/recentlyAdded');
 	
 	//echo '<div class="col-md-10 col-sm-offset-1">';
@@ -581,6 +582,31 @@ function makeNowPlaying()
 
 function getTranscodeSessions()
 {
+
+	// This needs to be refactored, because I want to keep my library info hidden
+	/*
+	Basic rundown:
+	$curl_http_headers = [
+		'X-Plex-Client-Identifier: Randomstring',
+		'Content-Length: 0'
+	];
+	$curl = curl_init('https://my.plexapp.com/users/sign_in.xml');
+	curl_setopt($curl, CURLOPT_HEADER, FALSE);
+	curl_setopt($curl, CURLOPT_HTTPHEADER, $curl_http_headers);
+	curl_setopt($curl, CURLOPT_USERPWD, "Jarvl" .':'. "Lemons7717!");
+	curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+	curl_setopt($curl, CURLOPT_POST, TRUE);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+	$curl_result = curl_exec($curl);
+
+	$curl_result = simplexml_load_string($curl_result);
+
+	$auth_token = $curl_result->{"authentication-token"};
+
+	
+
+
+	*/
 	$network = getNetwork("plex");
 	$plexSessionXML = simplexml_load_file($network.'/status/sessions');
 
@@ -677,9 +703,23 @@ function getPlexToken()
 {
 	global $plex_username;
 	global $plex_password;
-	$myPlex = shell_exec('curl -H "Content-Length: 0" -H "X-Plex-Client-Identifier: my-app" -u "'.$plex_username.'"":""'.$plex_password.'" -X POST https://my.plexapp.com/users/sign_in.xml 2> /dev/null');
-	$myPlex_xml = simplexml_load_string($myPlex);
-	$token = $myPlex_xml['authenticationToken'];
+
+	$curl_http_headers = [
+		'X-Plex-Client-Identifier: my-app',
+		'Content-Length: 0'
+	];
+	$curl = curl_init('https://my.plexapp.com/users/sign_in.xml');
+	curl_setopt($curl, CURLOPT_HEADER, FALSE);
+	curl_setopt($curl, CURLOPT_HTTPHEADER, $curl_http_headers);
+	curl_setopt($curl, CURLOPT_USERPWD, $plex_username .':'. $plex_password);
+	curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+	curl_setopt($curl, CURLOPT_POST, TRUE);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+	$curl_result = curl_exec($curl);
+	
+	$myPlex_xml = simplexml_load_string($curl_result);
+	$token = $curl_result->{"authentication-token"};
+
 	return $token;
 }
 
