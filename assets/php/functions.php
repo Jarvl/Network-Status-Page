@@ -409,7 +409,7 @@ function makeRecenlyReleased()
 	// Various items are commented out as I was playing with what information to include.
 	$network = getNetwork("plex");
 	$clientIP = get_client_ip();
-	$plexNewestXML = simplexml_load_file($network.'/library/sections/7/newest');
+	$plexNewestXML = simplexml_load_file($network.'/library/recentlyAdded');
 	
 	//echo '<div class="col-md-10 col-sm-offset-1">';
 	echo '<div class="col-md-12">';
