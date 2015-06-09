@@ -368,10 +368,11 @@ function makeRecenlyViewed()
 	global $weather_long;
 	global $weather_name;
 	$network = getNetwork();
+	$plexNetwork = getNetwork("plex");
 	$clientIP = get_client_ip();
-	$plexSessionXML = simplexml_load_file($network.':'.$plex_port.'/status/sessions');
+	$plexSessionXML = simplexml_load_file($plexNetwork.'/status/sessions');
 	$trakt_url = 'http://trakt.tv/user/'.$trakt_username.'/widgets/watched/all-tvthumb.jpg';
-	$traktThumb = '/Users/zeus/Sites/d4rk.co/assets/caches/thumbnails/all-tvthumb.jpg';
+	$traktThumb = '/var/www/hill364.net/public_html/assets/caches/thumbnails/all-tvthumb.jpg';
 
 	echo '<div class="col-md-12">';
 	echo '<a href="http://trakt.tv/user/'.$trakt_username.'" class="thumbnail">';
@@ -407,10 +408,9 @@ function makeRecenlyViewed()
 function makeRecenlyReleased()
 {
 	// Various items are commented out as I was playing with what information to include.
-	global $plex_port;
-	$network = getNetwork();
+	$network = getNetwork("plex");
 	$clientIP = get_client_ip();
-	$plexNewestXML = simplexml_load_file($network.':'.$plex_port.'/library/sections/7/newest');
+	$plexNewestXML = simplexml_load_file($network.'/library/sections/7/newest');
 	
 	//echo '<div class="col-md-10 col-sm-offset-1">';
 	echo '<div class="col-md-12">';
@@ -420,21 +420,21 @@ function makeRecenlyReleased()
 	echo '<div class="carousel-inner">';
 	echo '<div class="item active">';
 	$mediaKey = $plexNewestXML->Video[0]['key'];
-	$mediaXML = simplexml_load_file($network.':'.$plex_port.$mediaKey);
+	$mediaXML = simplexml_load_file($network.$mediaKey);
 	$movieTitle = $mediaXML->Video['title'];
 	$movieArt = $mediaXML->Video['thumb'];
-	echo '<img src="plex.php?img='.urlencode($network.':'.$plex_port.$movieArt).'" alt="'.$movieTitle.'">';
+	echo '<img src="plex.php?img='.urlencode($network.$movieArt).'" alt="'.$movieTitle.'">';
 	echo '</div>'; // Close item div
 	$i=1;
 	for ( ; ; ) {
 		if($i==15) break;
 		$mediaKey = $plexNewestXML->Video[$i]['key'];
-		$mediaXML = simplexml_load_file($network.':'.$plex_port.$mediaKey);
+		$mediaXML = simplexml_load_file($network.$mediaKey);
 		$movieTitle = $mediaXML->Video['title'];
 		$movieArt = $mediaXML->Video['thumb'];
 		$movieYear = $mediaXML->Video['year'];
 		echo '<div class="item">';
-		echo '<img src="plex.php?img='.urlencode($network.':'.$plex_port.$movieArt).'" alt="'.$movieTitle.'">';
+		echo '<img src="plex.php?img='.urlencode($network.$movieArt).'" alt="'.$movieTitle.'">';
 		//echo '<div class="carousel-caption">';
 		//echo '<h3>'.$movieTitle.$movieYear.'</h3>';
 		//echo '<p>Summary</p>';
@@ -457,9 +457,8 @@ function makeRecenlyReleased()
 
 function makeNowPlaying()
 {
-	global $plex_port;
-	$network = getNetwork();
-	$plexSessionXML = simplexml_load_file($network.':'.$plex_port.'/status/sessions');
+	$network = getNetwork("plex");
+	$plexSessionXML = simplexml_load_file($network.'/status/sessions');
 
 	if (!$plexSessionXML):
 		makeRecenlyViewed();
@@ -476,7 +475,7 @@ function makeNowPlaying()
 		foreach ($plexSessionXML->Video as $sessionInfo):
 			$mediaKey = $sessionInfo['key'];
 			$playerTitle = $sessionInfo->Player['title'];
-			$mediaXML = simplexml_load_file($network.':'.$plex_port.$mediaKey);
+			$mediaXML = simplexml_load_file($network.$mediaKey);
 			$type = $mediaXML->Video['type'];
 			echo '<div class="thumbnail">';
 			$i++; // Increment i every pass through the array
@@ -497,7 +496,7 @@ function makeNowPlaying()
 					$movieSummary = limitWords($mediaXML->Video['summary'],50); // Limit to 50 words
 					$movieSummary .= "..."; // Add ellipsis
 				endif;
-				echo '<img src="plex.php?img='.urlencode($network.':'.$plex_port.$movieArt).'" alt="'.$movieTitle.'">';
+				echo '<img src="plex.php?img='.urlencode($network.$movieArt).'" alt="'.$movieTitle.'">';
 				// Make now playing progress bar
 				//echo 'div id="now-playing-progress-bar">';
 				echo '<div class="progress now-playing-progress-bar">';
@@ -533,7 +532,7 @@ function makeNowPlaying()
 				$device = $plexSessionXML->Video[$i-1]->Player['title'];
 				$state = $plexSessionXML->Video[$i-1]->Player['state'];
 				//echo '<div class="img-overlay">';
-				echo '<img src="plex.php?img='.urlencode($network.':'.$plex_port.$tvArt).'" alt="'.$showTitle.'">';
+				echo '<img src="plex.php?img='.urlencode($network.$tvArt).'" alt="'.$showTitle.'">';
 				// Make now playing progress bar
 				//echo 'div id="now-playing-progress-bar">';
 				echo '<div class="progress now-playing-progress-bar">';
@@ -584,8 +583,8 @@ function makeNowPlaying()
 function getTranscodeSessions()
 {
 	global $plex_port;
-	$network = getNetwork();
-	$plexSessionXML = simplexml_load_file($network.':'.$plex_port.'/status/sessions');
+	$network = getNetwork("plex");
+	$plexSessionXML = simplexml_load_file($network.'/status/sessions');
 
 	if (count($plexSessionXML->Video) > 0):
 		$i = 0; // i is the variable that gets iterated each pass through the array
