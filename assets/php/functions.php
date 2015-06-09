@@ -333,12 +333,17 @@ function ping()
 	return $avgPing;
 }
 
-function getNetwork()
+function getNetwork($subdomain = "")
 {
 	// It should be noted that this function is designed specifically for getting the local / wan name for Plex.
 	// I kept this function here so I didn't have to refactor a bunch of code
 	global $wan_domain;
-	$network='http://'.$wan_domain;
+	if ($subdomain != "") {
+		$network='http://'.$subdomain.".".$wan_domain;
+	}
+	else {
+		$network='http://'.$wan_domain;
+	}
 	return $network;
 }
 
