@@ -433,7 +433,7 @@ function makeRecenlyReleased()
 		$movieArt = $mediaXML->Video['thumb'];
 		$movieYear = $mediaXML->Video['year'];
 		echo '<div class="item">';
-		echo '<img src="plex.php?img='.urlencode($network.$movieArt).'" alt="'.$movieTitle.'">';
+		echo '<img src="'.$network.$movieArt.'" alt="'.$movieTitle.'">';
 		//echo '<div class="carousel-caption">';
 		//echo '<h3>'.$movieTitle.$movieYear.'</h3>';
 		//echo '<p>Summary</p>';
