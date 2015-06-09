@@ -422,7 +422,7 @@ function makeRecenlyReleased()
 	$mediaXML = simplexml_load_file($network.$mediaKey);
 	$movieTitle = $mediaXML->Video['title'];
 	$movieArt = $mediaXML->Video['thumb'];
-	echo '<img src="plex.php?img='.urlencode($network.$movieArt).'" alt="'.$movieTitle.'">';
+	echo '<img src="'.$network.$movieArt.'" alt="'.$movieTitle.'">';
 	echo '</div>'; // Close item div
 	$i=1;
 	for ( ; ; ) {
@@ -495,7 +495,7 @@ function makeNowPlaying()
 					$movieSummary = limitWords($mediaXML->Video['summary'],50); // Limit to 50 words
 					$movieSummary .= "..."; // Add ellipsis
 				endif;
-				echo '<img src="plex.php?img='.urlencode($network.$movieArt).'" alt="'.$movieTitle.'">';
+				echo '<img src="'.$network.$movieArt.'" alt="'.$movieTitle.'">';
 				// Make now playing progress bar
 				//echo 'div id="now-playing-progress-bar">';
 				echo '<div class="progress now-playing-progress-bar">';
@@ -531,7 +531,7 @@ function makeNowPlaying()
 				$device = $plexSessionXML->Video[$i-1]->Player['title'];
 				$state = $plexSessionXML->Video[$i-1]->Player['state'];
 				//echo '<div class="img-overlay">';
-				echo '<img src="plex.php?img='.urlencode($network.$tvArt).'" alt="'.$showTitle.'">';
+				echo '<img src="'.$network.$tvArt.'" alt="'.$showTitle.'">';
 				// Make now playing progress bar
 				//echo 'div id="now-playing-progress-bar">';
 				echo '<div class="progress now-playing-progress-bar">';
