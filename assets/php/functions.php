@@ -1,6 +1,6 @@
 <?php
 
-$config_path = '/var/www/hill364.net/'; //path to config file, recommend you place it outside of web root
+$config_path = '/var/www/hill364.net/config.ini'; //path to config file, recommend you place it outside of web root
 
 Ini_Set( 'display_errors', true);
 include '../../init.php';
