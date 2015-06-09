@@ -138,7 +138,7 @@ function makeDiskBars()
 	// For special drives like my Drobos I have to set the total disk space manually.
 	// That is why you see the total space in bytes.
 
-	printDiskBar(getDiskspace("/"), "HDD", disk_free_space("/"), disk_total_space("/"));
+	printDiskBar(getDiskspace("/dev/sda1"), "HDD", disk_free_space("/dev/sda1"), disk_total_space("/dev/sda1"));
 	//printDiskBar(getDiskspace("/Volumes/Time Machine"), "Time Machine", disk_free_space("/Volumes/Time Machine"), disk_total_space("/Volumes/Time Machine"));
 	//printDiskBar(getDiskspace("/Volumes/Isengard"), "Isengard", disk_free_space("/Volumes/Isengard"), disk_total_space("/Volumes/Isengard"));
 	//printDiskBar(getDiskspace("/Volumes/WD2.2"), "Minas Tirith", disk_free_space("/Volumes/WD2.2"), disk_total_space("/Volumes/WD2.2"));
@@ -163,10 +163,8 @@ function makeLoadBars()
 
 function getFreeRam()
 {
-	// This is very customized to OS X, if using another OS you'll have to roll your own
-	// This will output exactly what activity monitor in 10.9 reports as Memory Used
-	// And while this works very well I disabled it because it's almost
-	// meaningless to keep track of in OS X. What I care more about is Swap Used.
+	// This is newly customized for Linux
+	// Keep in mind that this is using MemAvailable not MemFree
 
 	// Parse Meminfo file and store in array (specific to Linux)
 	$data = explode("\n", file_get_contents("/proc/meminfo"));
@@ -176,10 +174,6 @@ function getFreeRam()
     	// delete kB in meminfo output and trim
     	$meminfo[$key] = trim(str_replace("kB", "", $val));
     }
-
-	//$top = shell_exec('top -l 1 -n 0');
-	//$find_str_1 = 'unused.';
-	//$unusedStart = strpos($top, $find_str_1);
 	
 	// Grab the unused ram amount
 	$availableRam = $meminfo["MemAvailable"]/1024/1024; // GB
@@ -334,14 +328,11 @@ function printTotalDiskBar($dup, $name = "", $dsu, $dts)
 
 function ping()
 {
-	//global $local_pfsense_ip;
 	global $ping_ip;
 
 	$clientIP = get_client_ip();
 	$pingIP = '8.8.8.8';
-	/*if($clientIP != $local_pfsense_ip) {
-		$pingIP = $clientIP;
-	}*/
+
 	$terminal_output = shell_exec('ping -c 5 -q '.$ping_ip);
 	// If using something besides OS X you might want to customize the following variables for proper output of average ping.
 	$findme_start = '= ';
@@ -360,16 +351,9 @@ function ping()
 function getNetwork()
 {
 	// It should be noted that this function is designed specifically for getting the local / wan name for Plex.
-	//global $local_pfsense_ip;
+	// I kept this function here so I didn't have to refactor a bunch of code
 	global $wan_domain;
-	/*global $plex_server_ip;
-
-	$clientIP = get_client_ip();
-	if($clientIP=='10.0.1.1'):
-		$network='http://'.$plex_server_ip;
-	else:*/
-		$network='http://'.$wan_domain;
-	/*endif;*/
+	$network='http://'.$wan_domain;
 	return $network;
 }
 
@@ -384,56 +368,7 @@ function get_client_ip()
 	} 
 	return $ipaddress;
 }
-/*
-function sabSpeedAdjuster()
-{
-	global $sab_ip;
-	global $sab_port;
-	global $sabnzbd_api;
-	global $sabSpeedLimitMax;
-	global $sabSpeedLimitMin;
-	// Set how high ping we want to hit before throttling
-	global $ping_throttle;
 
-	// Check the current ping
-	$avgPing = ping();
-	// Get SABnzbd XML
-	$sabnzbdXML = simplexml_load_file('http://'.$sab_ip.':'.$sab_port.'/api?mode=queue&start=START&limit=LIMIT&output=xml&apikey='.$sabnzbd_api);
-	// Get current SAB speed limit
-	$sabSpeedLimitCurrent = $sabnzbdXML->speedlimit;
-	
-	// Check to see if SAB is downloading
-	if (($sabnzbdXML->status) == 'Downloading'):
-			// If it is downloading and ping is over X value, slow it down
-			if ($avgPing > $ping_throttle):
-				if ($sabSpeedLimitCurrent > $sabSpeedLimitMin):
-					// Reduce speed by 256KBps
-					echo 'Ping is over '.$ping_throttle;
-					echo '<br>';
-					echo 'Slowing down SAB';
-					$sabSpeedLimitSet = $sabSpeedLimitCurrent - 256;
-					shell_exec('curl "http://'.$sab_ip.':'.$sab_port.'/api?mode=config&name=speedlimit&value='.$sabSpeedLimitSet.'&apikey='.$sabnzbd_api.'"');
-				else:
-					echo 'Ping is over '.$ping_throttle.' but SAB cannot slow down anymore';
-				endif;	
-			elseif (($avgPing + 9) < $ping_throttle):
-				if ($sabSpeedLimitCurrent < $sabSpeedLimitMax):
-					// Increase speed by 256KBps
-					echo 'SAB is downloading and ping is '.($avgPing + 9).'  so increasing download speed.';
-					$sabSpeedLimitSet = $sabSpeedLimitCurrent + 256;
-					shell_exec('curl "http://'.$sab_ip.':'.$sab_port.'/api?mode=config&name=speedlimit&value='.$sabSpeedLimitSet.'&apikey='.$sabnzbd_api.'"');
-				else:
-					echo 'SAB is downloading. Ping is low enough but we are at global download speed limit.';
-				endif;
-			else:
-				echo 'SAB is downloading. Ping is ok but not low enough to speed up SAB.';
-			endif;
-		else:
-			// do nothing, 
-			echo 'SAB is not downloading.';
-		endif;
-}
-*/
 function makeRecenlyViewed()
 {
 	//global $local_pfsense_ip;
@@ -694,16 +629,7 @@ function getBandwidth($interface)
 	// you need to change the -i rl0 to the name of your interface for WAN e.g. -i <interface>
 	// You will also probably need to do a var_dump of $output below and figure out exactly which array 
 	// values you need as they might be off by one or two each.
-	/*
-	global $local_pfsense_ip;
-	global $pfSense_username;
-	global $pfSense_password;
-	$ssh = new Net_SSH2($local_pfsense_ip);
-	if (!$ssh->login($pfSense_username,$pfSense_password)) {
-		//exit('Login Failed');
-		return array(0,0);
-	}
-*/
+
 	$dump = shell_exec('vnstat -i '.$interface.' -tr');
 	$output = preg_split('/[,;| \s]/', $dump);
 	for ($i=count($output)-1; $i>=0; $i--) {
@@ -725,31 +651,13 @@ function getBandwidth($interface)
 		$txRateMB = $txRate;
 	}
 
-	// Shell output is in bytes
-	$rxRate = trim(shell_exec("cat /sys/class/net/".$interface."/statistics/rx_bytes"));
-	$rxRateMB = $rxRate/1024/1024; //MB
-
-	$txRate = trim(shell_exec("cat /sys/class/net/".$interface."/statistics/tx_bytes"));
-	$txRateMB = $txRate/1024/1024; //MB
-
 	return array($rxRateMB, $txRateMB);
 }
 
 function getPing($sourceIP,$destinationIP)
 {
-	// This will work with any pfSense install. $sourceIP is the IP address of the WAN that you want to
-	// use to ping with. This allows you to ping the same address from multiple WANs if you need to.
-/*
-	global $local_pfsense_ip;
-	global $pfSense_username;
-	global $pfSense_password;
+	// $sourceIP is the IP address of the WAN that you want to use to ping with. This allows you to ping the same address from multiple WANs if you need to.
 
-	$ssh = new Net_SSH2($local_pfsense_ip);
-	if (!$ssh->login($pfSense_username,$pfSense_password)) {
-		//exit('Login Failed');
-		return array(0,0);
-	}
-	*/
 	$terminal_output = shell_exec('ping -c 5 -q -S '.$sourceIP.' '.$destinationIP);
 	// If using something besides OS X you might want to customize the following variables for proper output of average ping.
 	$findme_start = '= ';
@@ -777,20 +685,7 @@ function printBandwidthBar($percent, $name = "", $Mbps)
 		echo '</div>';
 	echo '</div>';
 }
-/*
-function getMinecraftPlayers($port)
-{
-	$server = new MinecraftServerStatus('127.0.0.1',$port);
-	$players = false;
-	$numplayers = 0;
-	if($server->Get('numplayers')>"0") {
-		$players = true;
-		$numplayers = $server->Get('numplayers');
-	}
 
-	return array($players, $numplayers);
-}
-*/
 function getPlexToken()
 {
 	global $plex_username;
