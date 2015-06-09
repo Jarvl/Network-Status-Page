@@ -2,7 +2,7 @@
 
 $config_path = '/var/www/hill364.net/'; //path to config file, recommend you place it outside of web root
 
-Ini_Set( 'display_errors', false);
+Ini_Set( 'display_errors', true);
 include '../../init.php';
 include 'lib/phpseclib0.3.5/Net/SSH2.php';
 require_once 'MinecraftServerStatus.class.php';
