@@ -68,7 +68,7 @@ else
 //$televisionTotalSpace = 1.196268651e+13; // This is in bytes
 //$television2TotalSpace = 5.959353023e+12; // This is in bytes
 
-$mainHDDTotalSpace = 79999008768 // in bytes
+$mainHDDTotalSpace = 79999008768; // in bytes
 
 
 // This is if you want to get a % of cpu usage in real time instead of load.
