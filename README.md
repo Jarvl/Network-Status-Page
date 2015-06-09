@@ -1,13 +1,13 @@
-Network Status Page - 0.2.0
+Network Status Page - Linux
 ===================
 
-Designed to monitor a local server and network with forecast.io, Plex, and pfSense integration.
+Designed to monitor a local server and network with forecast.io and Plex.
 
 [Live site][ls]
 
 [Plex forum thread][pft]
 
-[ls]: http://d4rk.co/
+[ls]: http://hill364.net/
 [pft]: http://forums.plexapp.com/index.php/topic/84856-network-status-page/
 
 
@@ -19,11 +19,11 @@ Designed to monitor a local server and network with forecast.io, Plex, and pfSen
 
 * Uses jQuery to provide near real time feedback
 
-* Optimized for Apple devices  `Tested on OS X 10.9/10.10 and iOS 7/8`
+* Optimized for Linux devices `Tested on Ubuntu 14.04 Trusty Tahr`
 
 * Displays the following:
 	* currently playing items from Plex Media Server
-	* current network bandwidth from pfSense
+	* current network bandwidth from vnstat
 	* current ping to ip of your choosing, e.g. Google DNS
 	* online / offline status for custom services
 	* minute by minute weather forecast from forecast.io
@@ -49,19 +49,15 @@ Designed to monitor a local server and network with forecast.io, Plex, and pfSen
 * The weather sidebar requires a [forecast.io API key][fcAPI] `Free up to 1000 calls/day.`
 * Web server that supports php (apache, nginx, XAMPP, WampServer, EasyPHP, lighttpd, etc)
 * PHP 5.4
-
-**Note:** While this project is written with OS X in mind, it can very easily be adapted to run on linux or windows by rewriting the functions that don't work on those platforms.
+* Make sure to install vnstat using `sudo apt-get install vnstat`.
 
 [pms]: https://plex.tv
 [pp]: https://plex.tv/subscription/about
 [fcAPI]: https://developer.forecast.io
 
 
-###Optional
----------------
-* A few functions are written to be used with the following software but they are optional:
-	* [SABnzbd+][sab]
-	* [pfSense][pfs]
+###Additional Notes
 
-[sab]: http://sabnzbd.org
-[pfs]: http://www.pfsense.org
+This fork of Network-Status-Page is an adaptation for Linux (specifically Ubuntu). I also removed all of the code that uses pfSense, as well as OS X specific code. Feel free to clone if you're using Linux! Huge thanks to [d4rk22][d4rk22] for making this awesome application.
+
+[d4rk22]: https://github.com/d4rk22
