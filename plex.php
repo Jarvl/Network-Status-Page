@@ -1,7 +1,7 @@
 <?php
 include 'init.php';
 include ROOT_DIR . '/assets/php/functions.php';
-$image_url = $_GET['img'];
+$image_url = urldecode($_GET['img']);
 $plexNetwork = getNetwork("plex");
 $addressPosition = strpos($image_url, $plexNetwork);
 if($addressPosition !== false && $addressPosition == 0) {
