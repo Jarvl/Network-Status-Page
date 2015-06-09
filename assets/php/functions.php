@@ -68,6 +68,9 @@ else
 //$televisionTotalSpace = 1.196268651e+13; // This is in bytes
 //$television2TotalSpace = 5.959353023e+12; // This is in bytes
 
+$mainHDDTotalSpace = 79999008768 // in bytes
+
+
 // This is if you want to get a % of cpu usage in real time instead of load.
 // After using it for a week I determined that it gave me a lot less information than load does.
 function getCpuUsage()
@@ -138,7 +141,8 @@ function makeDiskBars()
 	// For special drives like my Drobos I have to set the total disk space manually.
 	// That is why you see the total space in bytes.
 
-	printDiskBar(getDiskspace("/dev/sda1"), "HDD", disk_free_space("/dev/sda1"), disk_total_space("/dev/sda1"));
+	// TODO: Figure out why /dev/sda1 has wrong values for free and total space
+	printDiskBar(getDiskspace("/"), "Primary HDD", disk_free_space("/"), disk_total_space("/"));
 	//printDiskBar(getDiskspace("/Volumes/Time Machine"), "Time Machine", disk_free_space("/Volumes/Time Machine"), disk_total_space("/Volumes/Time Machine"));
 	//printDiskBar(getDiskspace("/Volumes/Isengard"), "Isengard", disk_free_space("/Volumes/Isengard"), disk_total_space("/Volumes/Isengard"));
 	//printDiskBar(getDiskspace("/Volumes/WD2.2"), "Minas Tirith", disk_free_space("/Volumes/WD2.2"), disk_total_space("/Volumes/WD2.2"));
