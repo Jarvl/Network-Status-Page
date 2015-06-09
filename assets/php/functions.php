@@ -8,31 +8,37 @@ include 'lib/phpseclib0.3.5/Net/SSH2.php';
 require_once 'MinecraftServerStatus.class.php';
 $config = parse_ini_file($config_path);
 
+
 // Import variables from config file
+
 // Network Details
-$local_pfsense_ip = $config['local_pfsense_ip'];
-$local_server_ip = $config['local_server_ip'];
+//$local_pfsense_ip = $config['local_pfsense_ip'];
+//$local_server_ip = $config['local_server_ip'];
 $wan_domain = $config['wan_domain'];
 $wan1_ip = $config['wan1_ip'];
-$wan2_ip = $config['wan2_ip'];
+//$wan2_ip = $config['wan2_ip'];
 $ping_ip = $config['ping_ip'];
 $plex_server_ip = $config['plex_server_ip'];
 $plex_port = $config['plex_port'];
+
 // Credentials
-$pfSense_username = $config['pfSense_username'];
-$pfSense_password = $config['pfSense_password'];
+//$pfSense_username = $config['pfSense_username'];
+//$pfSense_password = $config['pfSense_password'];
 $plex_username = $config['plex_username'];
 $plex_password = $config['plex_password'];
 $trakt_username = $config['trakt_username'];
+
 // API Keys
 $forecast_api = $config['forecast_api'];
-$sabnzbd_api = $config['sabnzbd_api'];
+//$sabnzbd_api = $config['sabnzbd_api'];
+
 // SABnzbd+
-$sab_ip = $config['sab_ip'];
-$sab_port = $config['sab_port'];
-$ping_throttle = $config['ping_throttle'];
-$sabSpeedLimitMax = $config['sabSpeedLimitMax'];
-$sabSpeedLimitMin = $config['sabSpeedLimitMin'];
+//$sab_ip = $config['sab_ip'];
+//$sab_port = $config['sab_port'];
+//$ping_throttle = $config['ping_throttle'];
+//$sabSpeedLimitMax = $config['sabSpeedLimitMax'];
+//$sabSpeedLimitMin = $config['sabSpeedLimitMin'];
+
 // Misc
 $cpu_cores = $config['cpu_cores'];
 $weather_always_display = $config['weather_always_display'];
@@ -58,9 +64,9 @@ else
 	$loads = Array(0.55,0.7,1);
 
 // Set the total disk space
-$ereborTotalSpace = 8.961019766e+12; // This is in bytes
-$televisionTotalSpace = 1.196268651e+13; // This is in bytes
-$television2TotalSpace = 5.959353023e+12; // This is in bytes
+//$ereborTotalSpace = 8.961019766e+12; // This is in bytes
+//$televisionTotalSpace = 1.196268651e+13; // This is in bytes
+//$television2TotalSpace = 5.959353023e+12; // This is in bytes
 
 // This is if you want to get a % of cpu usage in real time instead of load.
 // After using it for a week I determined that it gave me a lot less information than load does.
@@ -81,8 +87,8 @@ function makeCpuBars()
 
 function makeTotalDiskSpace()
 {
-	$du = getDiskspaceUsed("/") + getDiskspaceUsed("/Volumes/Time Machine") + getDiskspaceUsed("/Volumes/Isengard") + getDiskspaceUsed("/Volumes/1TB Portable") + getDiskspaceUsed("/Volumes/WD2.2") + getDiskspaceUsed("/Volumes/WD2.1") + getDiskspaceUsed("/Volumes/Barad-dur") + getDiskspaceUsed("/Volumes/Erebor") + getDiskspaceUsed("/Volumes/Television") + getDiskspaceUsed("/Volumes/Television 2");
-	$dts = disk_total_space("/") + disk_total_space("/Volumes/Time Machine") + disk_total_space("/Volumes/Isengard") + disk_total_space("/Volumes/1TB Portable") + disk_total_space("/Volumes/WD2.2") + disk_total_space("/Volumes/WD2.1") + disk_total_space("/Volumes/Barad-dur") + $GLOBALS['ereborTotalSpace'] + $GLOBALS['televisionTotalSpace'] + $GLOBALS['television2TotalSpace'];
+	$du = getDiskspaceUsed("/")/* + getDiskspaceUsed("/Volumes/Time Machine") + getDiskspaceUsed("/Volumes/Isengard") + getDiskspaceUsed("/Volumes/1TB Portable") + getDiskspaceUsed("/Volumes/WD2.2") + getDiskspaceUsed("/Volumes/WD2.1") + getDiskspaceUsed("/Volumes/Barad-dur") + getDiskspaceUsed("/Volumes/Erebor") + getDiskspaceUsed("/Volumes/Television") + getDiskspaceUsed("/Volumes/Television 2")*/;
+	$dts = disk_total_space("/")/* + disk_total_space("/Volumes/Time Machine") + disk_total_space("/Volumes/Isengard") + disk_total_space("/Volumes/1TB Portable") + disk_total_space("/Volumes/WD2.2") + disk_total_space("/Volumes/WD2.1") + disk_total_space("/Volumes/Barad-dur") + $GLOBALS['ereborTotalSpace'] + $GLOBALS['televisionTotalSpace'] + $GLOBALS['television2TotalSpace']*/;
 	$dfree = $dts - $du;
 	printTotalDiskBar(sprintf('%.0f',($du / $dts) * 100), "Total Capacity", $dfree, $dts);
 }
@@ -131,15 +137,16 @@ function makeDiskBars()
 {
 	// For special drives like my Drobos I have to set the total disk space manually.
 	// That is why you see the total space in bytes.
-	printDiskBar(getDiskspace("/"), "SSD", disk_free_space("/"), disk_total_space("/"));
-	printDiskBar(getDiskspace("/Volumes/Time Machine"), "Time Machine", disk_free_space("/Volumes/Time Machine"), disk_total_space("/Volumes/Time Machine"));
-	printDiskBar(getDiskspace("/Volumes/Isengard"), "Isengard", disk_free_space("/Volumes/Isengard"), disk_total_space("/Volumes/Isengard"));
-	printDiskBar(getDiskspace("/Volumes/WD2.2"), "Minas Tirith", disk_free_space("/Volumes/WD2.2"), disk_total_space("/Volumes/WD2.2"));
-	printDiskBar(getDiskspace("/Volumes/WD2.1"), "Minas Morgul", disk_free_space("/Volumes/WD2.1"), disk_total_space("/Volumes/WD2.1"));
-	printDiskBar(getDiskspace("/Volumes/Barad-dur"), "Barad-dûr", disk_free_space("/Volumes/Barad-dur"), disk_total_space("/Volumes/Barad-dur"));
-	printDiskBar(getDiskspaceErebor("/Volumes/Erebor"), "Erebor", ($GLOBALS['ereborTotalSpace'] - getDiskspaceUsed("/Volumes/Erebor")), $GLOBALS['ereborTotalSpace']);
-	printDiskBar(getDiskspaceTV1("/Volumes/Television"), "Narya", ($GLOBALS['televisionTotalSpace'] - getDiskspaceUsed("/Volumes/Television")), $GLOBALS['televisionTotalSpace']);
-	printDiskBar(getDiskspaceTV2("/Volumes/Television 2"), "Nenya", ($GLOBALS['television2TotalSpace'] - getDiskspaceUsed("/Volumes/Television 2")), $GLOBALS['television2TotalSpace']);
+
+	printDiskBar(getDiskspace("/"), "HDD", disk_free_space("/"), disk_total_space("/"));
+	//printDiskBar(getDiskspace("/Volumes/Time Machine"), "Time Machine", disk_free_space("/Volumes/Time Machine"), disk_total_space("/Volumes/Time Machine"));
+	//printDiskBar(getDiskspace("/Volumes/Isengard"), "Isengard", disk_free_space("/Volumes/Isengard"), disk_total_space("/Volumes/Isengard"));
+	//printDiskBar(getDiskspace("/Volumes/WD2.2"), "Minas Tirith", disk_free_space("/Volumes/WD2.2"), disk_total_space("/Volumes/WD2.2"));
+	//printDiskBar(getDiskspace("/Volumes/WD2.1"), "Minas Morgul", disk_free_space("/Volumes/WD2.1"), disk_total_space("/Volumes/WD2.1"));
+	//printDiskBar(getDiskspace("/Volumes/Barad-dur"), "Barad-dûr", disk_free_space("/Volumes/Barad-dur"), disk_total_space("/Volumes/Barad-dur"));
+	//printDiskBar(getDiskspaceErebor("/Volumes/Erebor"), "Erebor", ($GLOBALS['ereborTotalSpace'] - getDiskspaceUsed("/Volumes/Erebor")), $GLOBALS['ereborTotalSpace']);
+	//printDiskBar(getDiskspaceTV1("/Volumes/Television"), "Narya", ($GLOBALS['televisionTotalSpace'] - getDiskspaceUsed("/Volumes/Television")), $GLOBALS['televisionTotalSpace']);
+	//printDiskBar(getDiskspaceTV2("/Volumes/Television 2"), "Nenya", ($GLOBALS['television2TotalSpace'] - getDiskspaceUsed("/Volumes/Television 2")), $GLOBALS['television2TotalSpace']);
 }
 
 function makeRamBars()
@@ -160,15 +167,29 @@ function getFreeRam()
 	// This will output exactly what activity monitor in 10.9 reports as Memory Used
 	// And while this works very well I disabled it because it's almost
 	// meaningless to keep track of in OS X. What I care more about is Swap Used.
-	$top = shell_exec('top -l 1 -n 0');
-	$find_str_1 = 'unused.';
-	$unusedStart = strpos($top, $find_str_1);
+
+	// Parse Meminfo file and store in array (specific to Linux)
+	$data = explode("\n", file_get_contents("/proc/meminfo"));
+    $meminfo = array();
+    foreach ($data as $line) {
+    	list($key, $val) = explode(":", $line);
+    	// delete kB in meminfo output and trim
+    	$meminfo[$key] = trim(str_replace("kB", "", $val));
+    }
+
+	//$top = shell_exec('top -l 1 -n 0');
+	//$find_str_1 = 'unused.';
+	//$unusedStart = strpos($top, $find_str_1);
+	
 	// Grab the unused ram amount
-	$unusedRam = trim(substr($top,($unusedStart-6),4))/1024; // GB
+	$availableRam = $meminfo["MemAvailable"]/1024/1024; // GB
+	
 	// What is the total ram in the computer
-	$totalRam = (substr(shell_exec('sysctl hw.memsize'), 12))/1024/1024/1024; // GB
+	$totalRam = $meminfo["MemTotal"]/1024/1024; // GB
+	
 	// Find the amount of used ram
-	$usedRam = $totalRam - $unusedRam; // Find how much ram is used in GB.
+	$usedRam = $totalRam - $availableRam; // Find how much ram is used in GB.
+	
 	return array (sprintf('%.0f',($usedRam / $totalRam) * 100), 'Used Ram', $usedRam, $totalRam);
 }
 
@@ -179,7 +200,7 @@ function getDiskspace($dir)
 	$du = $dt - $df;
 	return sprintf('%.0f',($du / $dt) * 100);
 }
-
+/*
 function getDiskspaceErebor($dir)
 {
 	$df = disk_free_space($dir);
@@ -187,7 +208,7 @@ function getDiskspaceErebor($dir)
 	$du = $dt - $df;
 	return sprintf('%.0f',($du / $GLOBALS['ereborTotalSpace']) * 100);
 }
-
+*/
 function getDiskspaceUsed($dir)
 {
 	$df = disk_free_space($dir);
@@ -195,7 +216,7 @@ function getDiskspaceUsed($dir)
 	$du = $dt - $df;
 	return $du;
 }
-
+/*
 function getDiskspaceTV1($dir)
 {
 	$df = disk_free_space($dir);
@@ -211,7 +232,7 @@ function getDiskspaceTV2($dir)
 	$du = $dt - $df;
 	return sprintf('%.0f',($du / $GLOBALS['television2TotalSpace']) * 100);
 }
-
+*/
 function getLoad($id)
 {
 	global $cpu_cores;
@@ -313,14 +334,14 @@ function printTotalDiskBar($dup, $name = "", $dsu, $dts)
 
 function ping()
 {
-	global $local_pfsense_ip;
+	//global $local_pfsense_ip;
 	global $ping_ip;
 
 	$clientIP = get_client_ip();
-	//$pingIP = '8.8.8.8';
-	if($clientIP != $local_pfsense_ip) {
+	$pingIP = '8.8.8.8';
+	/*if($clientIP != $local_pfsense_ip) {
 		$pingIP = $clientIP;
-	}
+	}*/
 	$terminal_output = shell_exec('ping -c 5 -q '.$ping_ip);
 	// If using something besides OS X you might want to customize the following variables for proper output of average ping.
 	$findme_start = '= ';
@@ -339,16 +360,16 @@ function ping()
 function getNetwork()
 {
 	// It should be noted that this function is designed specifically for getting the local / wan name for Plex.
-	global $local_pfsense_ip;
+	//global $local_pfsense_ip;
 	global $wan_domain;
-	global $plex_server_ip;
+	/*global $plex_server_ip;
 
 	$clientIP = get_client_ip();
 	if($clientIP=='10.0.1.1'):
 		$network='http://'.$plex_server_ip;
-	else:
+	else:*/
 		$network='http://'.$wan_domain;
-	endif;
+	/*endif;*/
 	return $network;
 }
 
@@ -363,7 +384,7 @@ function get_client_ip()
 	} 
 	return $ipaddress;
 }
-
+/*
 function sabSpeedAdjuster()
 {
 	global $sab_ip;
@@ -412,10 +433,10 @@ function sabSpeedAdjuster()
 			echo 'SAB is not downloading.';
 		endif;
 }
-
+*/
 function makeRecenlyViewed()
 {
-	global $local_pfsense_ip;
+	//global $local_pfsense_ip;
 	global $plex_port;
 	global $trakt_username;
 	global $weather_lat;
@@ -449,12 +470,12 @@ function makeRecenlyViewed()
 		}
 	}
 	// This checks to see if you are inside your local network. If you are it gives you the forecast as well.
-	if($clientIP == $local_pfsense_ip && count($plexSessionXML->Video) == 0) {
+	//if($clientIP == $local_pfsense_ip && count($plexSessionXML->Video) == 0) {
 		echo '<hr>';
 		echo '<h1 class="exoextralight" style="margin-top:5px;">';
 		echo 'Forecast</h1>';
 		echo '<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat='.$weather_lat.'&lon='.$weather_long.'&name='.$weather_name.'"> </iframe>';
-	}
+	//}
 	echo '</div>';
 }
 
@@ -673,6 +694,7 @@ function getBandwidth($interface)
 	// you need to change the -i rl0 to the name of your interface for WAN e.g. -i <interface>
 	// You will also probably need to do a var_dump of $output below and figure out exactly which array 
 	// values you need as they might be off by one or two each.
+	/*
 	global $local_pfsense_ip;
 	global $pfSense_username;
 	global $pfSense_password;
@@ -701,15 +723,23 @@ function getBandwidth($interface)
 		$txRateMB = $txRate / 1024;
 	} else {
 		$txRateMB = $txRate;
-	}
-	return  array($rxRateMB, $txRateMB);
+	}*/
+
+	// Shell output is in bytes
+	$rxRate = trim(shell_exec("cat /sys/class/net/".$interface."/statistics/rx_bytes"));
+	$rxRateMB = $rxRate/1024/1024; //MB
+
+	$txRate = trim(shell_exec("cat /sys/class/net/".$interface."/statistics/tx_bytes"));
+	$txRateMB = $txRate/1024/1024; //MB
+
+	return array($rxRateMB, $txRateMB);
 }
 
 function getPing($sourceIP,$destinationIP)
 {
 	// This will work with any pfSense install. $sourceIP is the IP address of the WAN that you want to
 	// use to ping with. This allows you to ping the same address from multiple WANs if you need to.
-
+/*
 	global $local_pfsense_ip;
 	global $pfSense_username;
 	global $pfSense_password;
@@ -719,7 +749,8 @@ function getPing($sourceIP,$destinationIP)
 		//exit('Login Failed');
 		return array(0,0);
 	}
-	$terminal_output = $ssh->exec('ping -c 5 -q -S '.$sourceIP.' '.$destinationIP);
+	*/
+	$terminal_output = shell_exec('ping -c 5 -q -S '.$sourceIP.' '.$destinationIP);
 	// If using something besides OS X you might want to customize the following variables for proper output of average ping.
 	$findme_start = '= ';
 	$start = strpos($terminal_output, $findme_start);
@@ -746,7 +777,7 @@ function printBandwidthBar($percent, $name = "", $Mbps)
 		echo '</div>';
 	echo '</div>';
 }
-
+/*
 function getMinecraftPlayers($port)
 {
 	$server = new MinecraftServerStatus('127.0.0.1',$port);
@@ -759,7 +790,7 @@ function getMinecraftPlayers($port)
 
 	return array($players, $numplayers);
 }
-
+*/
 function getPlexToken()
 {
 	global $plex_username;
