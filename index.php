@@ -175,11 +175,18 @@
 										<div id="transcodeSessions"></div>
 								</div>
 								<div class="panel-body">
-									<div id="system_load" style="margin-bottom:-10px"></div>	
-									
-									<h4 class="exoextralight">Memory</h4>
+									<div id="system_load" style="margin-bottom:-10px"></div>
+								</div>
+							</div>
+							<!-- Memory Panel -->
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title exoextralight">
+										Memory
+									</h4>
+								</div>
+								<div class="panel-body">
 									<div id="system_ram" style="height:40px"></div>
-									
 								</div>
 							</div>
 							<!-- Storage Panel -->
@@ -243,6 +250,7 @@
 		            			$('#ping').show();
 		            			$('#services').show();
 								$('#system_load').show();
+								$('#system_ram').show();
 								$('#transcodeSessions').show();
 								$('#disk_space').show();
 								$('#now_playing_title').show();
@@ -254,6 +262,7 @@
 				            	$('#ping').show();
 				            	$('#services').show();
 								$('#system_load').show();
+								$('#system_ram').show();
 								$('#transcodeSessions').show();
 								$('#disk_space').show();
 								$('#now_playing_title').show();
@@ -265,6 +274,7 @@
 				            	$('#ping').show();
 				            	$('#services').show();
 								$('#system_load').show();
+								$('#system_ram').show();
 								$('#transcodeSessions').show();
 								$('#disk_space').show();
 								$('#now_playing_title').show();
@@ -279,6 +289,7 @@
 				var $ping_refresh = $('#ping');
 				var $services_refresh = $('#services');
 	        	var $system_load_refresh = $('#system_load');
+	        	var $system_ram_refresh = $('#system_ram');
 	        	var $transcodeSessions = $('#transcodeSessions');
 	        	var $disk_space_refresh = $('#disk_space');
 	        	var $now_playing_title_refresh = $('#now_playing_title');
@@ -293,6 +304,7 @@
 	        	$ping_refresh.load("assets/php/ping_ajax.php");
 	        	$services_refresh.load("assets/php/services_ajax.php");
 	        	$system_load_refresh.load("assets/php/system_load_ajax.php");
+	        	$system_ram_refresh.load("assets/php/system_ram_ajax.php");
 	        	$transcodeSessions.load("assets/php/transcode_sessions_ajax.php");
 	        	$disk_space_refresh.load("assets/php/disk_space_ajax.php");
 			        
@@ -302,6 +314,10 @@
 
 			        	var refreshIdfastest = setInterval(function(){
 			            	$system_load_refresh.load('assets/php/system_load_ajax.php');
+			        	}, 5000); // 5 seconds
+
+			        	var refreshIdfastest = setInterval(function(){
+			            	$system_ram_refresh.load('assets/php/system_ram_ajax.php');
 			        	}, 5000); // 5 seconds
 
 			        	var refreshId30 = setInterval(function(){
