@@ -623,10 +623,10 @@ function getBandwidth($interface)
 		if ($output[$i] == '') unset ($output[$i]);
 	}
 	$output = array_values($output);
-	$rxRate = $output[50];
-	$rxFormat = $output[51];
-	$txRate = $output[55];
-	$txFormat = $output[56];
+	$rxRate = $output[51];
+	$rxFormat = $output[52];
+	$txRate = $output[56];
+	$txFormat = $output[57];
 	if ($rxFormat == 'kbit/s') {
 		$rxRateMB = $rxRate / 1024;
 	} else {
