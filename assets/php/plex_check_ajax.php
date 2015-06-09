@@ -3,7 +3,9 @@
 	include '../../init.php';
 	include 'functions.php';
 
-	$plexSessionXML = simplexml_load_file('http://'.$plex_server_ip.':'.$plex_port.'/status/sessions');
+	$plexNetwork = getNetwork("plex");
+
+	$plexSessionXML = simplexml_load_file('http://'.$plexNetwork.'/status/sessions');
 	$plexcheckfile1 = ROOT_DIR . '/assets/caches/plexcheckfile1.txt';
 	$plexcheckfile2 = ROOT_DIR . '/assets/caches/plexcheckfile2.txt';
 	$plexcheckfile1_md5 = md5_file($plexcheckfile1);
