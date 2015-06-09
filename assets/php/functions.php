@@ -2,7 +2,7 @@
 
 $config_path = '/var/www/hill364.net/config.ini'; //path to config file, recommend you place it outside of web root
 
-Ini_Set( 'display_errors', true);
+Ini_Set( 'display_errors', false);
 include '../../init.php';
 include 'lib/phpseclib0.3.5/Net/SSH2.php';
 $config = parse_ini_file($config_path);
