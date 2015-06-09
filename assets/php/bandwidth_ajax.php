@@ -14,7 +14,6 @@
 <?php 
 
 global $wan1_ip;
-//global $wan2_ip;
 global $ping_ip;
 
 echo '<div class="exolight">';

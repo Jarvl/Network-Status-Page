@@ -12,32 +12,19 @@ $config = parse_ini_file($config_path);
 // Import variables from config file
 
 // Network Details
-//$local_pfsense_ip = $config['local_pfsense_ip'];
-//$local_server_ip = $config['local_server_ip'];
 $wan_domain = $config['wan_domain'];
 $wan1_ip = $config['wan1_ip'];
-//$wan2_ip = $config['wan2_ip'];
 $ping_ip = $config['ping_ip'];
 $plex_server_ip = $config['plex_server_ip'];
 $plex_port = $config['plex_port'];
 
 // Credentials
-//$pfSense_username = $config['pfSense_username'];
-//$pfSense_password = $config['pfSense_password'];
 $plex_username = $config['plex_username'];
 $plex_password = $config['plex_password'];
 $trakt_username = $config['trakt_username'];
 
 // API Keys
 $forecast_api = $config['forecast_api'];
-//$sabnzbd_api = $config['sabnzbd_api'];
-
-// SABnzbd+
-//$sab_ip = $config['sab_ip'];
-//$sab_port = $config['sab_port'];
-//$ping_throttle = $config['ping_throttle'];
-//$sabSpeedLimitMax = $config['sabSpeedLimitMax'];
-//$sabSpeedLimitMin = $config['sabSpeedLimitMin'];
 
 // Misc
 $cpu_cores = $config['cpu_cores'];
@@ -62,11 +49,6 @@ if (strpos(strtolower(PHP_OS), "Darwin") === false)
 	$loads = sys_getloadavg();
 else
 	$loads = Array(0.55,0.7,1);
-
-// Set the total disk space
-//$ereborTotalSpace = 8.961019766e+12; // This is in bytes
-//$televisionTotalSpace = 1.196268651e+13; // This is in bytes
-//$television2TotalSpace = 5.959353023e+12; // This is in bytes
 
 $mainHDDTotalSpace = 79999008768; // in bytes
 
