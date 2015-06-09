@@ -11,16 +11,11 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Network Status Page</title>
-		<meta name="author" content="d4rk">
+		<title>Hill 364</title>
+		<meta name="author" content="Hill364">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<!-- Apple Device specific tags -->
-		<meta name="apple-mobile-web-app-title" content="d4rk">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<!-- Le styles -->
+		<!-- Styles -->
 		<link href="assets/fonts/stylesheet.css" rel="stylesheet">
-		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/css/bootstrap.min.css">
 		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.css" rel="stylesheet">
 		<style type="text/css">
@@ -55,7 +50,7 @@
 			.exoregular {
 				font-family:"exoregular";
 			}
-			/* Changes carousel slide transition to fade transition 
+			/*Changes carousel slide transition to fade transition*/
 			.carousel {
 				overflow: hidden;
 			}
@@ -76,7 +71,7 @@
 				opacity:1;
 				z-index:1;
 			}
-			 End of carousel slide transition hack */
+			 /*End of carousel slide transition hack*/
 			/* Disables shadowing on right and left sides of carousel images for a crisp look */
 			.carousel-control.left {
 				background-image: none;
