@@ -362,7 +362,6 @@ function get_client_ip()
 function makeRecenlyViewed()
 {
 	//global $local_pfsense_ip;
-	global $plex_port;
 	global $trakt_username;
 	global $weather_lat;
 	global $weather_long;
@@ -582,7 +581,6 @@ function makeNowPlaying()
 
 function getTranscodeSessions()
 {
-	global $plex_port;
 	$network = getNetwork("plex");
 	$plexSessionXML = simplexml_load_file($network.'/status/sessions');
 
