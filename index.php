@@ -171,8 +171,8 @@
 							<!-- Load Panel -->
 							<div class="panel panel-default">
 								<div class="panel-heading">
-										<!-- Transcode sessions title & badge div-->
-										<div id="transcodeSessions"></div>
+									<!-- Transcode sessions title & badge div-->
+									<div id="transcodeSessions"></div>
 								</div>
 								<div class="panel-body">
 									<div id="system_load" style="margin-bottom:-10px"></div>
@@ -181,9 +181,7 @@
 							<!-- Memory Panel -->
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<h4 class="panel-title exoextralight">
-										Memory
-									</h4>
+									<h4 class="panel-title exoextralight">Memory</h4>
 								</div>
 								<div class="panel-body">
 									<div id="system_ram" style="height:40px"></div>

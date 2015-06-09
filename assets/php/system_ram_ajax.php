@@ -3,6 +3,13 @@
 	Ini_Set( 'display_errors', true );
 	include '../../init.php';
 	include ROOT_DIR . '/assets/php/functions.php';
-
- 	makeRamBars();
-  ?>
+?>
+<html lang="en">
+	<script>
+	// Enable bootstrap tooltips
+	$(function ()
+	        { $("[rel=tooltip]").tooltip();
+	        });
+	</script>
+	<!-- Ram Usage -->
+<?php makeRamBars(); ?>
