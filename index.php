@@ -19,8 +19,8 @@
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/css/bootstrap.min.css">
 		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.css" rel="stylesheet">
 		<style type="text/css">
-			::-webkit-scrollbar { 
-    			display: none; 
+			::-webkit-scrollbar {
+    			display: none;
 			}
 			body {
 				text-align: center;
@@ -29,14 +29,14 @@
 				margin-left:auto;
 				margin-right:auto;
 			}
-			.no-link-color 
+			.no-link-color
 				a {
 					color:#999999;
 				}
 				a:hover {
-					color:#999999;	
+					color:#999999;
 				}
-			
+
 			.exoextralight {
 				font-family:"exoextralight";
 			}
@@ -233,10 +233,10 @@
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/js/bootstrap.min.js"></script>
 		<script>
 		// Enable bootstrap tooltips
-		$(function () { 
+		$(function () {
 			$("[rel=tooltip]").tooltip();
 			$("[rel=popover]").popover();
-			}); 
+			});
 		// Auto refresh things
 		(function($) {
 			$(document).ready(function() {
@@ -305,7 +305,7 @@
 	        	$system_ram_refresh.load("assets/php/system_ram_ajax.php");
 	        	$transcodeSessions.load("assets/php/transcode_sessions_ajax.php");
 	        	$disk_space_refresh.load("assets/php/disk_space_ajax.php");
-			        
+
 				var refreshIdfastest = setInterval(function(){
 			        		$plex_check_refresh.load('assets/php/plex_check_ajax.php');
 			        	}, 10000); // at 3 & 5 seconds python was crashing.
@@ -322,7 +322,7 @@
 			        		$bandwidth_refresh.load("assets/php/bandwidth_ajax.php");
 			        		$ping_refresh.load("assets/php/ping_ajax.php");
 			        		$services_refresh.load("assets/php/services_ajax.php");
-			        	}, 30000); // 30 seconds
+			        	}, 10000); // 10 seconds
 
 			        	var refreshId60 = setInterval(function(){
 			        		$transcodeSessions.load("assets/php/transcode_sessions_ajax.php");
@@ -338,7 +338,7 @@
 
 			        	// Load these sections only if Plex has changed states
 			        	var theResource = "assets/caches/plexcheckfile2.txt";
- 
+
  				var refreshconditional = setInterval(function(){
 				          if(localStorage["resourcemodified"]) {
 				               $.ajax({
@@ -349,9 +349,9 @@
 				                         if(localStorage["resourcemodified"] != xhr.getResponseHeader("Last-Modified")) getResource();
 				                    }
 				               })
-				 
+
 				          } else getResource();
-				 
+
 				          function getResource() {
 				               $.ajax({
 				                    url:theResource,
@@ -364,7 +364,7 @@
 				                        $now_playing_title_refresh.load("assets/php/now_playing_title_ajax.php");
 			        			   		$now_playing_refresh.load("assets/php/now_playing_ajax.php");
 			        			   		$transcodeSessions.load("assets/php/transcode_sessions_ajax.php");
-				                    }                    
+				                    }
 				               })
 				          }
 				}, 5000); // 5 seconds
