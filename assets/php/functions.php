@@ -67,7 +67,7 @@ function getCpuUsage()
 function makeCpuBars()
 {
 	printBar(getCpuUsage(), "Usage");
-}	
+}
 
 function makeTotalDiskSpace()
 {
@@ -78,12 +78,12 @@ function makeTotalDiskSpace()
 }
 
 function byteFormat($bytes, $unit = "", $decimals = 2) {
-	$units = array('B' => 0, 'KB' => 1, 'MB' => 2, 'GB' => 3, 'TB' => 4, 
+	$units = array('B' => 0, 'KB' => 1, 'MB' => 2, 'GB' => 3, 'TB' => 4,
 			'PB' => 5, 'EB' => 6, 'ZB' => 7, 'YB' => 8);
 
 	$value = 0;
 	if ($bytes > 0) {
-		// Generate automatic prefix by bytes 
+		// Generate automatic prefix by bytes
 		// If wrong prefix given
 		if (!array_key_exists($unit, $units)) {
 			$pow = floor(log($bytes)/log(1000));
@@ -94,7 +94,7 @@ function byteFormat($bytes, $unit = "", $decimals = 2) {
 		$value = ($bytes/pow(1000,floor($units[$unit])));
 	}
 
-	// If decimals is not numeric or decimals is less than 0 
+	// If decimals is not numeric or decimals is less than 0
 	// then set default value
 	if (!is_numeric($decimals) || $decimals < 0) {
 		$decimals = 2;
@@ -159,16 +159,16 @@ function getFreeRam()
     	// delete kB in meminfo output and trim
     	$meminfo[$key] = trim(str_replace("kB", "", $val));
     }
-	
+
 	// Grab the unused ram amount
 	$availableRam = $meminfo["MemAvailable"]/1024/1024; // GB
-	
+
 	// What is the total ram in the computer
 	$totalRam = $meminfo["MemTotal"]/1024/1024; // GB
-	
+
 	// Find the amount of used ram
 	$usedRam = $totalRam - $availableRam; // Find how much ram is used in GB.
-	
+
 	return array (sprintf('%.0f',($usedRam / $totalRam) * 100), 'Used Ram', $usedRam, $totalRam);
 }
 
@@ -347,15 +347,15 @@ function getNetwork($subdomain = "")
 	return $network;
 }
 
-function get_client_ip() 
+function get_client_ip()
 {
-	if ( isset($_SERVER["REMOTE_ADDR"])) { 
+	if ( isset($_SERVER["REMOTE_ADDR"])) {
 		$ipaddress = $_SERVER["REMOTE_ADDR"];
 	}else if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
 		$ipaddress = $_SERVER["HTTP_X_FORWARDED_FOR"];
 	}else if (isset($_SERVER["HTTP_CLIENT_IP"])) {
 		$ipaddress = $_SERVER["HTTP_CLIENT_IP"];
-	} 
+	}
 	return $ipaddress;
 }
 
@@ -411,7 +411,7 @@ function makeRecenlyReleased()
 	$clientIP = get_client_ip();
 	// This might need to be changed from recently added
 	$plexNewestXML = simplexml_load_file($network.'/library/recentlyAdded');
-	
+
 	//echo '<div class="col-md-10 col-sm-offset-1">';
 	echo '<div class="col-md-12">';
 	echo '<div id="carousel-example-generic" class=" carousel slide">';
@@ -603,7 +603,7 @@ function getTranscodeSessions()
 
 	$auth_token = $curl_result->{"authentication-token"};
 
-	
+
 
 
 	*/
@@ -630,8 +630,8 @@ function getTranscodeSessions()
 function makeBandwidthBars($interface)
 {
 	$array = getBandwidth($interface);
-	$dPercent = sprintf('%.0f',($array[0] / 55) * 100);
-	$uPercent = sprintf('%.0f',($array[1] / 5) * 100);
+	$dPercent = sprintf('%.0f',($array[0] / 100) * 100);
+	$uPercent = sprintf('%.0f',($array[1] / 20) * 100);
 	printBandwidthBar($dPercent, 'Download', $array[0]);
 	printBandwidthBar($uPercent, 'Upload', $array[1]);
 }
@@ -640,7 +640,7 @@ function getBandwidth($interface)
 {
 	// For this to work with pfSense you have to have vnstat package installed and
 	// you need to change the -i rl0 to the name of your interface for WAN e.g. -i <interface>
-	// You will also probably need to do a var_dump of $output below and figure out exactly which array 
+	// You will also probably need to do a var_dump of $output below and figure out exactly which array
 	// values you need as they might be off by one or two each.
 
 	$dump = shell_exec('vnstat -i '.$interface.' -tr');
@@ -716,7 +716,7 @@ function getPlexToken()
 	curl_setopt($curl, CURLOPT_POST, TRUE);
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 	$curl_result = curl_exec($curl);
-	
+
 	$myPlex_xml = simplexml_load_string($curl_result);
 	$token = $curl_result->{"authentication-token"};
 
