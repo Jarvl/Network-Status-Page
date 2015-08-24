@@ -607,7 +607,7 @@ function parseCpMovies($status)
 	}
 }
 
-makeCpMovies()
+function makeCpMovies()
 {
 	global $weather_lat;
 	global $weather_long;
