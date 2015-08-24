@@ -24,6 +24,6 @@
 
     echo '<h1 class="exoextralight">'.$titleText.'</h1>';
 	echo '<hr>';
-    echo var_dump(parseCpMovies("release_status=snatched"));
+    echo var_dump(parseCpMovies("status=done"));
 
 ?>
