@@ -1,6 +1,6 @@
 <?php
 
-$config_path = '/var/www/hill364.net/config.ini'; //path to config file, recommend you place it outside of web root
+$config_path = '../../config.ini'; //path to config file, recommend you place it outside of web root
 
 Ini_Set( 'display_errors', false);
 include '../../init.php';
@@ -24,6 +24,7 @@ $trakt_username = $config['trakt_username'];
 
 // API Keys
 $forecast_api = $config['forecast_api'];
+$couchpotato_api = $config['couchpotato_api'];
 
 // Misc
 $cpu_cores = $config['cpu_cores'];
@@ -371,7 +372,7 @@ function makeRecenlyViewed()
 	$clientIP = get_client_ip();
 	$plexSessionXML = simplexml_load_file($plexNetwork.'/status/sessions');
 	$trakt_url = 'http://trakt.tv/user/'.$trakt_username.'/widgets/watched/all-tvthumb.jpg';
-	$traktThumb = '/var/www/hill364.net/public_html/assets/caches/thumbnails/all-tvthumb.jpg';
+	$traktThumb = '/var/www/'.$wan_domain.'/public_html/assets/caches/thumbnails/all-tvthumb.jpg';
 
 	echo '<div class="col-md-12">';
 	echo '<a href="http://trakt.tv/users/'.$trakt_username.'" class="thumbnail">';
@@ -580,51 +581,101 @@ function makeNowPlaying()
 	endif;
 }
 
-function getTranscodeSessions()
+function parseCpMovies($status)
 {
+	$cpNetwork = getNetwork("couchpotato");
+	$url = $cpNetwork."/".$couchpotato_api."/movie.list/?";
+	$count = 0;
+	$movie_array = [];
 
-	// This needs to be refactored, because I want to keep my library info hidden
-	/*
-	Basic rundown:
-	$curl_http_headers = [
-		'X-Plex-Client-Identifier: Randomstring',
-		'Content-Length: 0'
-	];
-	$curl = curl_init('https://my.plexapp.com/users/sign_in.xml');
-	curl_setopt($curl, CURLOPT_HEADER, FALSE);
-	curl_setopt($curl, CURLOPT_HTTPHEADER, $curl_http_headers);
-	curl_setopt($curl, CURLOPT_USERPWD, "Jarvl" .':'. "Lemons7717!");
-	curl_setopt($curl, CURLOPT_TIMEOUT, 5);
-	curl_setopt($curl, CURLOPT_POST, TRUE);
-	curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-	$curl_result = curl_exec($curl);
+	// API call
+	$json = file_get_contents($url.$status);
+	$obj = json_decode($json);
 
-	$curl_result = simplexml_load_string($curl_result);
+	// parse through movie titles and poster art
+	if ($obj->empty == false) {
+		foreach ($obj->movies as $movie) {
+			//$movie->info->original_title = $movie_titles[$count];
+			//$movie->info->images->poster_original = $movie_posters[$count];
+			$movie_array[$count] = $movie;
+			$count++;
+		}
+		return $movie_array;
+	}
+	else {
+		return false;
+	}
+}
 
-	$auth_token = $curl_result->{"authentication-token"};
+makeCpMovies()
+{
+	global $weather_lat;
+	global $weather_long;
+	global $weather_name;
+	$clientIP = get_client_ip();
 
+	$cpMovies;
+	$movieTitle = "";
+	$moviePoster = "";
+	$movieSummary = "";
 
+	if (parseCpMovies("release_status=snatched") != false) {
+    	$cpMovies = parseCpMovies("release_status=snatched");
+    }
+    elseif (parseCpMovies("release_status=available") != false) {
+		$cpMovies = parseCpMovies("release_status=available");
+    }
+    elseif (parseCpMovies("status=active") != false) {
+		$cpMovies = parseCpMovies("status=active");
+    }
+    elseif (parseCpMovies("status=done") != false) {
+		$cpMovies = parseCpMovies("status=done");
+    }
 
+	if (!empty($cpMovies)) {
 
-	*/
-	$network = getNetwork("plex");
-	$plexSessionXML = simplexml_load_file($network.'/status/sessions');
+		echo '<div class="col-md-12">';
+			echo '<div id="carousel-example-generic" class="carousel slide">';
+				echo '<div class="thumbnail">';
+					echo '<!-- Wrapper for slides -->';
+					echo '<div class="carousel-inner">';
+						echo '<div class="item active">';
+							$movieTitle = $cpMovies[0]->info->original_title;
+							$movieArt = $cpMovies[0]->info->images->poster_original[0];
+							echo '<img src="'.$movieArt.'" alt="'.$movieTitle.'">';
+						echo '</div>'; // Close item div
+						$i=1;
+						// General loop
+						for ( ; ; ) {
+							if($i==15) break;
+							$movieTitle = $cpMovies[$i]->info->original_title;
+							$movieArt = $cpMovies[$i]->info->images->poster_original[0];
+							echo '<div class="item">';
+								echo '<img src="'.$movieArt.'" alt="'.$movieTitle.'">';
+								//echo '<div class="carousel-caption">';
+									//echo '<h3>'.$movieTitle.$movieYear.'</h3>';
+									//echo '<p>Summary</p>';
+								//echo '</div>';
+							echo '</div>'; // Close item div
+							$i++;
+						}
+					echo '</div>'; // Close carousel-inner div
+				echo '</div>'; // Close thumbnail div
+				echo '<!-- Controls -->';
+				echo '<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">';
+				//echo '<span class="glyphicon glyphicon-chevron-left"></span>';
+				echo '</a>';
+				echo '<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">';
+				//echo '<span class="glyphicon glyphicon-chevron-right"></span>';
+				echo '</a>';
+			echo '</div>'; // Close carousel slide div
+		echo '</div>'; // Close column div
 
-	if (count($plexSessionXML->Video) > 0):
-		$i = 0; // i is the variable that gets iterated each pass through the array
-		$t = 0; // t is the total amount of sessions
-		$transcodeSessions = 0; // this is the number of active transcodes
-		foreach ($plexSessionXML->Video as $sessionInfo):
-			$t++;
-		endforeach;
-		foreach ($plexSessionXML->Video as $sessionInfo):
-			if ($sessionInfo->TranscodeSession['videoDecision'] == 'transcode') {
-				$transcodeSessions++;
-			};
-			$i++; // Increment i every pass through the array
-		endforeach;
-		return $transcodeSessions;
-	endif;
+		echo '<hr>';
+		echo '<h1 class="exoextralight" style="margin-top:5px;">';
+		echo 'Forecast</h1>';
+		echo '<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat='.$weather_lat.'&lon='.$weather_long.'&name='.$weather_name.'"> </iframe>';
+	}
 }
 
 function makeBandwidthBars($interface)

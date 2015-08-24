@@ -148,8 +148,8 @@
 						</div>
 						<!-- Center Area -->
 						<div class="col-md-6">
-							<div id="now_playing_title"></div>
-							<?php	echo '<div id="now_playing"';
+							<div id="cp_movies_title"></div>
+							<?php echo '<div id="cp_movies"';
 							// Check to see if we're on a mobile device because overflow scrolling sucks on them.
 							// If we're on a cellphone disable the overflow:auto feature.
 							if ( $detect->isMobile() ):
@@ -251,8 +251,8 @@
 								$('#system_ram').show();
 								$('#transcodeSessions').show();
 								$('#disk_space').show();
-								$('#now_playing_title').show();
-								$('#now_playing').show();
+								$('#cp_movies_title').show();
+								$('#cp_movies').show();
 		            		},
 				            complete: function() {
 				            	$('#left_column_top').show();
@@ -263,8 +263,8 @@
 								$('#system_ram').show();
 								$('#transcodeSessions').show();
 								$('#disk_space').show();
-								$('#now_playing_title').show();
-								$('#now_playing').show();
+								$('#cp_movies_title').show();
+								$('#cp_movies').show();
 				            },
 				            success: function() {
 				            	$('#left_column_top').show();
@@ -275,8 +275,8 @@
 								$('#system_ram').show();
 								$('#transcodeSessions').show();
 								$('#disk_space').show();
-								$('#now_playing_title').show();
-								$('#now_playing').show();
+								$('#cp_movies_title').show();
+								$('#cp_movies').show();
 				            }
 				});
 
@@ -290,12 +290,12 @@
 	        	var $system_ram_refresh = $('#system_ram');
 	        	var $transcodeSessions = $('#transcodeSessions');
 	        	var $disk_space_refresh = $('#disk_space');
-	        	var $now_playing_title_refresh = $('#now_playing_title');
-	        	var $now_playing_refresh = $('#now_playing');
+	        	var $cp_movies_title_refresh = $('#cp_movies_title');
+	        	var $cp_movies_refresh = $('#cp_movies');
 
 	        	// Load external php files & assign variables
-	        	$now_playing_title_refresh.load("assets/php/now_playing_title_ajax.php");
-	        	$now_playing_refresh.load("assets/php/now_playing_ajax.php");
+	        	$cp_movies_title_refresh.load("assets/php/cp_movies_title_ajax.php");
+	        	$cp_movies_refresh.load("assets/php/cp_movies_ajax.php");
 	        	$plex_check_refresh.load('assets/php/plex_check_ajax.php');
 	        	$left_column_top_refresh.load('assets/php/left_column_top_ajax.php');
 	        	$bandwidth_refresh.load("assets/php/bandwidth_ajax.php");
@@ -361,8 +361,8 @@
 				                        localStorage["resourcemodified"] = xhr.getResponseHeader("Last-Modified");
 				                        console.log("Updating our cache and refreshing appropriate divs.");
 				                        $left_column_top_refresh.load('assets/php/left_column_top_ajax.php');
-				                        $now_playing_title_refresh.load("assets/php/now_playing_title_ajax.php");
-			        			   		$now_playing_refresh.load("assets/php/now_playing_ajax.php");
+				                        $cp_movies_title_refresh.load("assets/php/cp_movies_title_ajax.php");
+			        			   		$cp_movies_refresh.load("assets/php/cp_movies_ajax.php");
 			        			   		$transcodeSessions.load("assets/php/transcode_sessions_ajax.php");
 				                    }
 				               })
@@ -380,7 +380,7 @@
 					} else if (body && body.clientHeight) {
 						height = body.clientHeight;
 					}
-					now_playing.style.height = ((height - now_playing.offsetTop) + "px");
+					cp_movies.style.height = ((height - cp_movies.offsetTop) + "px");
 					console.log("Div resize complete. New size is: " + height);
 				};
 				// Detect if we are on a mobile device, if we aren't resize the now playing div using doResizeNowPlaying()
