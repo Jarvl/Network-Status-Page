@@ -584,7 +584,7 @@ function makeNowPlaying()
 function parseCpMovies($status)
 {
 	$cpNetwork = getNetwork("couchpotato");
-	$url = $cpNetwork."/".$couchpotato_api."/movie.list/?";
+	$url = $cpNetwork."/api/".$couchpotato_api."/movie.list/?";
 	$count = 0;
 	$movie_array = [];
 
