@@ -171,8 +171,7 @@
 							<!-- Load Panel -->
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<!-- Transcode sessions title & badge div-->
-									<div id="transcodeSessions"></div>
+									<h4 class="panel-title exoextralight">System Load</h4>
 								</div>
 								<div class="panel-body">
 									<div id="system_load" style="margin-bottom:-10px"></div>
@@ -249,7 +248,6 @@
 		            			$('#services').show();
 								$('#system_load').show();
 								$('#system_ram').show();
-								$('#transcodeSessions').show();
 								$('#disk_space').show();
 								$('#cp_movies_title').show();
 								$('#cp_movies').show();
@@ -261,7 +259,6 @@
 				            	$('#services').show();
 								$('#system_load').show();
 								$('#system_ram').show();
-								$('#transcodeSessions').show();
 								$('#disk_space').show();
 								$('#cp_movies_title').show();
 								$('#cp_movies').show();
@@ -273,7 +270,6 @@
 				            	$('#services').show();
 								$('#system_load').show();
 								$('#system_ram').show();
-								$('#transcodeSessions').show();
 								$('#disk_space').show();
 								$('#cp_movies_title').show();
 								$('#cp_movies').show();
@@ -288,7 +284,6 @@
 				var $services_refresh = $('#services');
 	        	var $system_load_refresh = $('#system_load');
 	        	var $system_ram_refresh = $('#system_ram');
-	        	var $transcodeSessions = $('#transcodeSessions');
 	        	var $disk_space_refresh = $('#disk_space');
 	        	var $cp_movies_title_refresh = $('#cp_movies_title');
 	        	var $cp_movies_refresh = $('#cp_movies');
@@ -303,7 +298,6 @@
 	        	$services_refresh.load("assets/php/services_ajax.php");
 	        	$system_load_refresh.load("assets/php/system_load_ajax.php");
 	        	$system_ram_refresh.load("assets/php/system_ram_ajax.php");
-	        	$transcodeSessions.load("assets/php/transcode_sessions_ajax.php");
 	        	$disk_space_refresh.load("assets/php/disk_space_ajax.php");
 
 				var refreshIdfastest = setInterval(function(){
@@ -323,11 +317,11 @@
 			        		$ping_refresh.load("assets/php/ping_ajax.php");
 			        		$services_refresh.load("assets/php/services_ajax.php");
 			        	}, 10000); // 10 seconds
-
+/*
 			        	var refreshId60 = setInterval(function(){
 			        		$transcodeSessions.load("assets/php/transcode_sessions_ajax.php");
 			        	}, 60000); // 60 seconds
-
+*/
 			        	var refreshIdslow = setInterval(function(){
 			            	$disk_space_refresh.load('assets/php/disk_space_ajax.php');
 			        	}, 120000); // 2 minutes
@@ -363,7 +357,6 @@
 				                        $left_column_top_refresh.load('assets/php/left_column_top_ajax.php');
 				                        $cp_movies_title_refresh.load("assets/php/cp_movies_title_ajax.php");
 			        			   		$cp_movies_refresh.load("assets/php/cp_movies_ajax.php");
-			        			   		$transcodeSessions.load("assets/php/transcode_sessions_ajax.php");
 				                    }
 				               })
 				          }

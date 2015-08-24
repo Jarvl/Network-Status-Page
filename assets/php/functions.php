@@ -396,7 +396,7 @@ function makeRecenlyViewed()
 		}
 	}
 	// This checks to see if you are inside your local network. If you are it gives you the forecast as well.
-	//if($clientIP == $local_pfsense_ip && count($plexSessionXML->Video) == 0) {
+		//if($clientIP == $local_pfsense_ip && count($plexSessionXML->Video) == 0) {
 		echo '<hr>';
 		echo '<h1 class="exoextralight" style="margin-top:5px;">';
 		echo 'Forecast</h1>';
