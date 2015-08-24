@@ -597,6 +597,7 @@ function parseCpMovies($status)
 		foreach ($obj->movies as $movie) {
 			//$movie->info->original_title = $movie_titles[$count];
 			//$movie->info->images->poster_original = $movie_posters[$count];
+			$movie_array[$count] = new stdClass;
 			$movie_array[$count] = $movie;
 			$count++;
 		}
