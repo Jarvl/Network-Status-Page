@@ -1,6 +1,6 @@
 <?php
 
-$config_path = '../../config.ini'; //path to config file, recommend you place it outside of web root
+$config_path = '../../../config.ini'; //path to config file, recommend you place it outside of web root (Currently referencing to one directory up from web root)
 
 Ini_Set( 'display_errors', false);
 include '../../init.php';
