@@ -12,7 +12,7 @@ makeCpMovies();
 		{ $("[rel=tooltip]").tooltip();
 	});
 
-	$('.carousel').carousel({
+	$('#cp-movie-carousel').carousel({
   		interval: 3000
 	})
 </script>

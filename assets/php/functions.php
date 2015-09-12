@@ -610,7 +610,7 @@ function parseCpMovies($status)
 	$json = file_get_contents($url.$status);
 	$obj = json_decode($json);
 
-	
+
 
 	// parse through movie titles and poster art
 	if (!$obj->empty) {
@@ -656,7 +656,7 @@ function makeCpMovies()
 	if (!empty($cpMovies)) {
 
 		echo '<div class="col-md-12">';
-			echo '<div id="carousel-example-generic" class="carousel slide">';
+			echo '<div id="cp-movie-carousel" class="carousel slide">';
 				echo '<div class="thumbnail">';
 					echo '<!-- Wrapper for slides -->';
 					echo '<div class="carousel-inner">';
@@ -673,10 +673,10 @@ function makeCpMovies()
 							$movieArt = $cpMovies[$i]->info->images->poster_original[0];
 							echo '<div class="item">';
 								echo '<img src="'.$movieArt.'" alt="'.$movieTitle.'">';
-								echo '<div class="carousel-caption">';
-									echo '<h3>'.$movieTitle.$movieYear.'</h3>';
-									echo '<p>Summary</p>';
-								echo '</div>';
+								//echo '<div class="carousel-caption">';
+									//echo '<h3>'.$movieTitle.$movieYear.'</h3>';
+									//echo '<p>Summary</p>';
+								//echo '</div>';
 							echo '</div>'; // Close item div
 							$i++;
 						}
