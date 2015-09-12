@@ -14,9 +14,9 @@
 	</script>
 <?php
 $services = array(
-	new service("Plex", 32400, "http://plex.hill364.net/web/index.html#!/dashboard"),
-	new service("CouchPotato", 5050, "http://couchpotato.hill364.net"),
-	new service("Transmission", 9091, "http://transmission.hill364.net"),
+	new service("Plex", 32400, "http://plex." . $wan_domain . "/web/index.html#!/dashboard"),
+	new service("CouchPotato", 5050, "http://couchpotato." . $wan_domain),
+	new service("Transmission", 9091, "http://transmission." . $wan_domain),
 );
 ?>
 <table class="center">
