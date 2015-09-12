@@ -656,8 +656,8 @@ function makeCpMovies()
 	if (!empty($cpMovies)) {
 
 		echo '<div class="col-md-12">';
-			echo '<div id="cp-movie-carousel" class="carousel slide">';
-				echo '<div class="thumbnail">';
+			echo '<div class="thumbnail">';
+				echo '<div id="cp-movie-carousel" class="carousel slide" data-ride="carousel">';
 					echo '<!-- Wrapper for slides -->';
 					echo '<div class="carousel-inner">';
 						echo '<div class="item active">';
@@ -681,15 +681,15 @@ function makeCpMovies()
 							$i++;
 						}
 					echo '</div>'; // Close carousel-inner div
-				echo '</div>'; // Close thumbnail div
+				echo '</div>'; // Close carousel slide div
 				echo '<!-- Controls -->';
 				echo '<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">';
-				//echo '<span class="glyphicon glyphicon-chevron-left"></span>';
+					echo '<span class="glyphicon glyphicon-chevron-left"></span>';
 				echo '</a>';
 				echo '<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">';
-				//echo '<span class="glyphicon glyphicon-chevron-right"></span>';
+					echo '<span class="glyphicon glyphicon-chevron-right"></span>';
 				echo '</a>';
-			echo '</div>'; // Close carousel slide div
+			echo '</div>'; // Close thumbnail div
 		echo '</div>'; // Close column div
 
 		echo '<hr>';
