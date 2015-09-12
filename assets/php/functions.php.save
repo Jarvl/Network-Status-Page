@@ -7,6 +7,7 @@ include '../../init.php';
 include 'lib/phpseclib0.3.5/Net/SSH2.php';
 $config = parse_ini_file($config_path);
 
+
 // Import variables from config file
 
 // Network Details
@@ -50,21 +51,6 @@ else
 	$loads = Array(0.55,0.7,1);
 
 $mainHDDTotalSpace = 79999008768; // in bytes
-
-// alternative function for jile_get_contents
-function curl_get_contents($url)
-{
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_URL, $url);
-
-    $data = curl_exec($ch);
-    curl_close($ch);
-
-    return $data;
-}
 
 
 // This is if you want to get a % of cpu usage in real time instead of load.
@@ -599,8 +585,6 @@ function makeNowPlaying()
 
 function parseCpMovies($status)
 {
-	global $couchpotato_api;
-
 	$cpNetwork = getNetwork("couchpotato");
 	$url = $cpNetwork."/api/".$couchpotato_api."/movie.list/?";
 	$count = 0;
@@ -610,10 +594,10 @@ function parseCpMovies($status)
 	$json = file_get_contents($url.$status);
 	$obj = json_decode($json);
 
-
+	echo () ? "true" : "false";
 
 	// parse through movie titles and poster art
-	if (!$obj->empty) {
+	if ($obj->empty == false) {
 		foreach ($obj->movies as $movie) {
 			//$movie->info->original_title = $movie_titles[$count];
 			//$movie->info->images->poster_original = $movie_posters[$count];
@@ -656,7 +640,7 @@ function makeCpMovies()
 	if (!empty($cpMovies)) {
 
 		echo '<div class="col-md-12">';
-			echo '<div id="cp-movies-carousel" class="carousel slide" data-ride="carousel">';
+			echo '<div id="carousel-example-generic" class="carousel slide">';
 				echo '<div class="thumbnail">';
 					echo '<!-- Wrapper for slides -->';
 					echo '<div class="carousel-inner">';
@@ -671,7 +655,6 @@ function makeCpMovies()
 							if($i==15) break;
 							$movieTitle = $cpMovies[$i]->info->original_title;
 							$movieArt = $cpMovies[$i]->info->images->poster_original[0];
-							if(strlen($movieTitle) == 0) break;
 							echo '<div class="item">';
 								echo '<img src="'.$movieArt.'" alt="'.$movieTitle.'">';
 								//echo '<div class="carousel-caption">';
@@ -684,15 +667,15 @@ function makeCpMovies()
 					echo '</div>'; // Close carousel-inner div
 				echo '</div>'; // Close thumbnail div
 				echo '<!-- Controls -->';
-				echo '<a class="left carousel-control" href="#cp-movies-carousel" data-slide="prev">';
-					echo '<span class="glyphicon glyphicon-chevron-left"></span>';
+				echo '<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">';
+				//echo '<span class="glyphicon glyphicon-chevron-left"></span>';
 				echo '</a>';
-				echo '<a class="right carousel-control" href="#cp-movies-carousel" data-slide="next">';
-					echo '<span class="glyphicon glyphicon-chevron-right"></span>';
+				echo '<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">';
+				//echo '<span class="glyphicon glyphicon-chevron-right"></span>';
 				echo '</a>';
 			echo '</div>'; // Close carousel slide div
 		echo '</div>'; // Close column div
-	} else { // This will probably never fire
+
 		echo '<hr>';
 		echo '<h1 class="exoextralight" style="margin-top:5px;">';
 		echo 'Forecast</h1>';
