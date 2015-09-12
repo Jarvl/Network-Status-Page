@@ -593,6 +593,7 @@ function parseCpMovies($status)
 	// API call
 	$json = file_get_contents($url.$status);
 	$obj = json_decode($json);
+	echo $obj;
 
 	// parse through movie titles and poster art
 	if ($obj->empty == false) {
