@@ -610,6 +610,8 @@ function parseCpMovies($status)
 	$json = file_get_contents($url.$status);
 	$obj = json_decode($json);
 
+	
+
 	// parse through movie titles and poster art
 	if (!$obj->empty) {
 		foreach ($obj->movies as $movie) {
@@ -671,10 +673,10 @@ function makeCpMovies()
 							$movieArt = $cpMovies[$i]->info->images->poster_original[0];
 							echo '<div class="item">';
 								echo '<img src="'.$movieArt.'" alt="'.$movieTitle.'">';
-								//echo '<div class="carousel-caption">';
-									//echo '<h3>'.$movieTitle.$movieYear.'</h3>';
-									//echo '<p>Summary</p>';
-								//echo '</div>';
+								echo '<div class="carousel-caption">';
+									echo '<h3>'.$movieTitle.$movieYear.'</h3>';
+									echo '<p>Summary</p>';
+								echo '</div>';
 							echo '</div>'; // Close item div
 							$i++;
 						}
