@@ -7,7 +7,6 @@ include '../../init.php';
 include 'lib/phpseclib0.3.5/Net/SSH2.php';
 $config = parse_ini_file($config_path);
 
-
 // Import variables from config file
 
 // Network Details
@@ -51,6 +50,21 @@ else
 	$loads = Array(0.55,0.7,1);
 
 $mainHDDTotalSpace = 79999008768; // in bytes
+
+// alternative function for jile_get_contents
+function curl_get_contents($url)
+{
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_URL, $url);
+
+    $data = curl_exec($ch);
+    curl_close($ch);
+
+    return $data;
+}
 
 
 // This is if you want to get a % of cpu usage in real time instead of load.
@@ -585,6 +599,8 @@ function makeNowPlaying()
 
 function parseCpMovies($status)
 {
+	global $couchpotato_api;
+
 	$cpNetwork = getNetwork("couchpotato");
 	$url = $cpNetwork."/api/".$couchpotato_api."/movie.list/?";
 	$count = 0;
@@ -594,10 +610,8 @@ function parseCpMovies($status)
 	$json = file_get_contents($url.$status);
 	$obj = json_decode($json);
 
-	echo print_r($obj);
-
 	// parse through movie titles and poster art
-	if ($obj->empty == false) {
+	if (!$obj->empty) {
 		foreach ($obj->movies as $movie) {
 			//$movie->info->original_title = $movie_titles[$count];
 			//$movie->info->images->poster_original = $movie_posters[$count];

@@ -23,7 +23,6 @@
     }
 
     echo '<h1 class="exoextralight">'.$titleText.'</h1>';
-    echo '<hr>';
-    //echo print_r(parseCpMovies("status=done"));
-
+	echo '<hr>';
+    
 ?>
