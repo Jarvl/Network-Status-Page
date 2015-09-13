@@ -44,12 +44,10 @@ if (file_exists($plexTokenCache) && (filemtime($plexTokenCache) > (time() - 60 *
 }
 
 // Calculate server load
-if (strpos(strtolower(PHP_OS), "Darwin") === false)
+//if (strpos(strtolower(PHP_OS), "linux") === false)
 	$loads = sys_getloadavg();
-else
-	$loads = Array(0.55,0.7,1);
-
-$mainHDDTotalSpace = 79999008768; // in bytes
+//else
+	//$loads = Array(0.55,0.7,1);
 
 // alternative function for jile_get_contents
 function curl_get_contents($url)
