@@ -138,7 +138,7 @@ function makeDiskBars()
 	// That is why you see the total space in bytes.
 
 	// TODO: Figure out why /dev/sda1 has wrong values for free and total space
-	printDiskBar(getDiskspace("/"), "Primary HDD", disk_free_space("/"), disk_total_space("/"));
+	printDiskBar(getDiskspace("/media/server"), "Primary HDD", disk_free_space("/media/server"), disk_total_space("/media/server"));
 	printDiskBar(getDiskspace("/media/Videos"), "The Big One", disk_free_space("/media/Videos"), disk_total_space("/media/Videos"));
 
 	//printDiskBar(getDiskspace("/Volumes/Time Machine"), "Time Machine", disk_free_space("/Volumes/Time Machine"), disk_total_space("/Volumes/Time Machine"));
