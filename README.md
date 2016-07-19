@@ -1,11 +1,9 @@
 Network Status Page - Linux
 ===================
 
-Designed to monitor a local server and network with forecast.io and Plex.
+A network status page designed to monitor a local Ubuntu server and network activity with forecast.io and CouchPotato integration.
 
-[Live site][ls]
-
-[Plex forum thread][pft]
+~~[Live site][ls]~~
 
 [ls]: http://hill364.net/
 [pft]: http://forums.plexapp.com/index.php/topic/84856-network-status-page/
@@ -17,12 +15,13 @@ Designed to monitor a local server and network with forecast.io and Plex.
 
 * Designed using [Bootstrap 3][bs]
 
-* Uses jQuery to provide near real time feedback
+* Uses AJAX calls to provide real time data from the server
 
 * Optimized for Linux devices `Tested on Ubuntu 14.04 Trusty Tahr`
 
 * Displays the following:
-	* currently playing items from Plex Media Server
+	* ~~currently playing items from Plex Media Server~~
+	* recent activity from CouchPotato
 	* current network bandwidth from vnstat
 	* current ping to ip of your choosing, e.g. Google DNS
 	* online / offline status for custom services
@@ -45,7 +44,7 @@ Designed to monitor a local server and network with forecast.io and Plex.
 
 ###Requirements
 ---------------
-* [Plex Media Server][pms] (v0.9.8+) and a [myPlex][pp] account `These are both free.`
+* ~~[Plex Media Server][pms] (v0.9.8+) and a [myPlex][pp] account `These are both free.`~~
 * The weather sidebar requires a [forecast.io API key][fcAPI] `Free up to 1000 calls/day.`
 * Web server that supports php (apache, nginx, XAMPP, WampServer, EasyPHP, lighttpd, etc)
 * PHP 5.4
@@ -58,6 +57,6 @@ Designed to monitor a local server and network with forecast.io and Plex.
 
 ###Additional Notes
 
-This fork of Network-Status-Page is an adaptation for Linux (specifically Ubuntu). I also removed all of the code that uses pfSense, as well as OS X specific code. Feel free to clone if you're using Linux! Huge thanks to [d4rk22][d4rk22] for making this awesome application.
+This fork of Network-Status-Page is an adaptation for Linux (specifically Ubuntu). I've removed all of the pfSense and OS X specific code, as well as support for Plex (never use it, didn't work the way I wanted it to). Feel free to contribute! Huge thanks to [d4rk22][d4rk22] for making this awesome application.
 
 [d4rk22]: https://github.com/d4rk22
