@@ -9,7 +9,7 @@ A network status page designed to monitor a local Ubuntu server and network acti
 [pft]: http://forums.plexapp.com/index.php/topic/84856-network-status-page/
 
 
-###Features
+Features
 ---------------
 * Responsive web design viewable on desktop, tablet and mobile web browsers 
 
@@ -35,14 +35,14 @@ A network status page designed to monitor a local Ubuntu server and network acti
 [bs]: http://getbootstrap.com
 
 
-###Screenshots
+Screenshots
 ---------------
 ![alt tag](http://d.pr/i/1hfF8+)
 
 ![alt tag](http://d.pr/i/1eTEu+)
 
 
-###Requirements
+Requirements
 ---------------
 * ~~[Plex Media Server][pms] (v0.9.8+) and a [myPlex][pp] account `These are both free.`~~
 * The weather sidebar requires a [forecast.io API key][fcAPI] `Free up to 1000 calls/day.`
@@ -55,7 +55,7 @@ A network status page designed to monitor a local Ubuntu server and network acti
 [fcAPI]: https://developer.forecast.io
 
 
-###Additional Notes
+Additional Notes
 
 This fork of Network-Status-Page is an adaptation for Linux (specifically Ubuntu). I've removed all of the pfSense and OS X specific code, as well as support for Plex (never use it, didn't work the way I wanted it to). Feel free to contribute! Huge thanks to [d4rk22][d4rk22] for making this awesome application.
 
