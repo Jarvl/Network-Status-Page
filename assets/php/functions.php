@@ -1,5 +1,5 @@
 <?php
-Ini_Set( 'display_errors', false);
+Ini_Set( 'display_errors', true);
 
 // Set the path for the Plex Token
 $plexTokenCache = ROOT_DIR . '/assets/caches/plex_token.txt';
@@ -563,6 +563,7 @@ function parseCpMovies($status)
 	$movie_array = [];
 
 	// API call
+	echo $url;
 	$json = file_get_contents($url.$status);
 	$obj = json_decode($json);
 
@@ -767,8 +768,7 @@ function getDir($b)
 function makeWeatherSidebar()
 {
 	$forecastExcludes = '?exclude=flags'; // Take a look at https://developer.forecast.io/docs/v2 to configure your weather information.
-	$currentForecast = json_decode(file_get_contents('https://api.forecast.io/forecast/'.$GLOBALS["config"]["darksky_api"].'/'.$GLOBALS["config"]["weather_lat"].','.$GLOBALS["config"]["weather_long"].$forecastExcludes));
-
+	$currentForecast = json_decode(file_get_contents('https://api.darksky.net/forecast/'.$GLOBALS["config"]["darksky_api"].'/'.$GLOBALS["config"]["weather_lat"].','.$GLOBALS["config"]["weather_long"].$forecastExcludes));
 	$currentSummary = $currentForecast->currently->summary;
 	$currentSummaryIcon = $currentForecast->currently->icon;
 	$currentTemp = round($currentForecast->currently->temperature);
