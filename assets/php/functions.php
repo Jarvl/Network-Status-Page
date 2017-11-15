@@ -53,8 +53,11 @@ function makeCpuBars()
 
 function makeTotalDiskSpace()
 {
-	$du = getDiskspaceUsed("/")/* + getDiskspaceUsed("/media/Videos") + getDiskspaceUsed("/Volumes/Time Machine") + getDiskspaceUsed("/Volumes/Isengard") + getDiskspaceUsed("/Volumes/1TB Portable") + getDiskspaceUsed("/Volumes/WD2.2") + getDiskspaceUsed("/Volumes/WD2.1") + getDiskspaceUsed("/Volumes/Barad-dur") + getDiskspaceUsed("/Volumes/Erebor") + getDiskspaceUsed("/Volumes/Television") + getDiskspaceUsed("/Volumes/Television 2")*/;
-	$dts = disk_total_space("/")/* + disk_total_space("/media/Videos") + disk_total_space("/Volumes/Time Machine") + disk_total_space("/Volumes/Isengard") + disk_total_space("/Volumes/1TB Portable") + disk_total_space("/Volumes/WD2.2") + disk_total_space("/Volumes/WD2.1") + disk_total_space("/Volumes/Barad-dur") + $GLOBALS['ereborTotalSpace'] + $GLOBALS['televisionTotalSpace'] + $GLOBALS['television2TotalSpace']*/;
+	$du = $dts = 0;
+	foreach ($GLOBALS["config"]["disks"] as $disk) {
+		$du += getDiskspaceUsed($disk["location"]);
+		$dts += disk_total_space($disk["location"]);
+	}
 	$dfree = $dts - $du;
 	printTotalDiskBar(sprintf('%.0f',($du / $dts) * 100), "Total Capacity", $dfree, $dts);
 }
@@ -101,21 +104,9 @@ function autoByteFormat($bytes) {
 
 function makeDiskBars()
 {
-	// For special drives like my Drobos I have to set the total disk space manually.
-	// That is why you see the total space in bytes.
-
-	// TODO: Figure out why /dev/sda1 has wrong values for free and total space
-	printDiskBar(getDiskspace("/"), "Primary HDD", disk_free_space("/"), disk_total_space("/"));
-	//printDiskBar(getDiskspace("/media/Videos"), "The Big One", disk_free_space("/media/Videos"), disk_total_space("/media/Videos"));
-
-	//printDiskBar(getDiskspace("/Volumes/Time Machine"), "Time Machine", disk_free_space("/Volumes/Time Machine"), disk_total_space("/Volumes/Time Machine"));
-	//printDiskBar(getDiskspace("/Volumes/Isengard"), "Isengard", disk_free_space("/Volumes/Isengard"), disk_total_space("/Volumes/Isengard"));
-	//printDiskBar(getDiskspace("/Volumes/WD2.2"), "Minas Tirith", disk_free_space("/Volumes/WD2.2"), disk_total_space("/Volumes/WD2.2"));
-	//printDiskBar(getDiskspace("/Volumes/WD2.1"), "Minas Morgul", disk_free_space("/Volumes/WD2.1"), disk_total_space("/Volumes/WD2.1"));
-	//printDiskBar(getDiskspace("/Volumes/Barad-dur"), "Barad-dûr", disk_free_space("/Volumes/Barad-dur"), disk_total_space("/Volumes/Barad-dur"));
-	//printDiskBar(getDiskspaceErebor("/Volumes/Erebor"), "Erebor", ($GLOBALS['ereborTotalSpace'] - getDiskspaceUsed("/Volumes/Erebor")), $GLOBALS['ereborTotalSpace']);
-	//printDiskBar(getDiskspaceTV1("/Volumes/Television"), "Narya", ($GLOBALS['televisionTotalSpace'] - getDiskspaceUsed("/Volumes/Television")), $GLOBALS['televisionTotalSpace']);
-	//printDiskBar(getDiskspaceTV2("/Volumes/Television 2"), "Nenya", ($GLOBALS['television2TotalSpace'] - getDiskspaceUsed("/Volumes/Television 2")), $GLOBALS['television2TotalSpace']);
+	foreach ($GLOBALS["config"]["disks"] as $disk) {
+		printDiskBar(getDiskspace($disk["location"]), $disk["title"], disk_free_space($disk["location"]), disk_total_space($disk["location"]));
+	}
 }
 
 function makeRamBars()
