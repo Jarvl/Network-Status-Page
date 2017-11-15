@@ -144,8 +144,8 @@
 						</div>
 						<!-- Center Area -->
 						<div class="col-md-6">
-							<div id="cp_movies_title"></div>
-							<div id="cp_movies"></div>
+							<!--<div id="cp_movies_title"></div>
+							<div id="cp_movies"></div>-->
 							<hr class="visible-xs visible-sm">
 						</div>
 						<!-- Right sidebar -->
@@ -232,7 +232,7 @@
 								$('#system_ram').show();
 								$('#disk_space').show();
 								$('#cp_movies_title').show();
-								$('#cp_movies').show();
+								//$('#cp_movies').show();
 		            		},
 				            complete: function() {
 				            	$('#left_column_top').show();
@@ -242,8 +242,8 @@
 								$('#system_load').show();
 								$('#system_ram').show();
 								$('#disk_space').show();
-								$('#cp_movies_title').show();
-								$('#cp_movies').show();
+								//$('#cp_movies_title').show();
+								//$('#cp_movies').show();
 				            },
 				            success: function() {
 				            	$('#left_column_top').show();
@@ -253,8 +253,8 @@
 								$('#system_load').show();
 								$('#system_ram').show();
 								$('#disk_space').show();
-								$('#cp_movies_title').show();
-								$('#cp_movies').show();
+								//$('#cp_movies_title').show();
+								//$('#cp_movies').show();
 				            }
 				});
 
@@ -266,12 +266,12 @@
 	        	var $system_load_refresh = $('#system_load');
 	        	var $system_ram_refresh = $('#system_ram');
 	        	var $disk_space_refresh = $('#disk_space');
-	        	var $cp_movies_title_refresh = $('#cp_movies_title');
-	        	var $cp_movies_refresh = $('#cp_movies');
+	        	//var $cp_movies_title_refresh = $('#cp_movies_title');
+	        	//var $cp_movies_refresh = $('#cp_movies');
 
 	        	// Load external php files & assign variables
-	        	$cp_movies_title_refresh.load("assets/php/cp_movies_title_ajax.php");
-	        	$cp_movies_refresh.load("assets/php/cp_movies_ajax.php");
+	        	//$cp_movies_title_refresh.load("assets/php/cp_movies_title_ajax.php");
+	        	//$cp_movies_refresh.load("assets/php/cp_movies_ajax.php");
 	        	$left_column_top_refresh.load('assets/php/left_column_top_ajax.php');
 	        	$bandwidth_refresh.load("assets/php/bandwidth_ajax.php");
 	        	$ping_refresh.load("assets/php/ping_ajax.php");
@@ -343,7 +343,7 @@
 				}, 5000); // 5 seconds
 */
 				// Change the size of the now playing div to match the client size
-				function doResizeCpMovies() {
+				/*function doResizeCpMovies() {
 					var height = 0;
 					var body = window.document.body;
 					if (window.innerHeight) {
@@ -370,7 +370,7 @@
 	   					clearTimeout(resizeTimer);
 						resizeTimer = setTimeout(doResizeCpMovies, 5000);
 					});
-				}
+				}*/
 		    	});
 		})(jQuery);
 		</script>
