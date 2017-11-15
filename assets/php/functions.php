@@ -779,8 +779,8 @@ function makeWeatherSidebar()
 	if ($currentWindSpeed > 0) {
 		$currentWindBearing = $currentForecast->currently->windBearing;
 	}
-	$minutelySummary = $currentForecast->minutely->summary;
 	$hourlySummary = $currentForecast->hourly->summary;
+	$dailySummary = $currentForecast->daily->summary;
 
 	$sunriseTime = $currentForecast->daily->data[0]->sunriseTime;
 	$sunsetTime = $currentForecast->daily->data[0]->sunsetTime;
@@ -838,10 +838,10 @@ function makeWeatherSidebar()
 	} else {
 		echo '<h4 class="exoextralight" style="margin-top:0px">Wind: Calm</h4>';
 	}
-	echo '<h4 class="exoregular">Next Hour</h4>';
-	echo '<h5 class="exoextralight" style="margin-top:10px">'.$minutelySummary.'</h5>';
-	echo '<h4 class="exoregular">Next 24 Hours</h4>';
+	echo '<h4 class="exoregular">Next Day</h4>';
 	echo '<h5 class="exoextralight" style="margin-top:10px">'.$hourlySummary.'</h5>';
+	echo '<h4 class="exoregular">Next Week</h4>';
+	echo '<h5 class="exoextralight" style="margin-top:10px">'.$dailySummary.'</h5>';
 	echo '<h4 class="exoregular">The Sun</h4>';
 	echo '<h5 class="exoextralight" style="margin-top:10px">'.$rises.' at '.date('g:i A', $sunriseTime).'</h5>';
 	echo '<h5 class="exoextralight" style="margin-top:10px">'.$sets.' at '.date('g:i A', $sunsetTime).'</h5>';
