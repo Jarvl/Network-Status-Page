@@ -2,7 +2,6 @@
 <?php
 	Ini_Set( 'display_errors', true );
 	include '../../init.php';
-	include ROOT_DIR . '/assets/php/functions.php';
 ?>
 <html lang="en">
 	<script>
@@ -13,18 +12,15 @@
 	</script>
 <?php 
 
-global $wan1_ip;
-global $ping_ip;
-
 echo '<div class="exolight">';
-echo 'Server Ping: '.getping($wan1_ip,$ping_ip).' ms';
+echo 'Server Ping: '.getping($GLOBALS["config"]["wan1_ip"],$GLOBALS["config"]["ping_ip"]).' ms';
 echo '<br>';
 echo '';
 echo '<br>';
 makeBandwidthBars('eth0');
 /*
 echo '<br>';
-echo 'WAN2 Ping: '.getping($wan2_ip,$ping_ip).' ms';
+echo 'WAN2 Ping: '.getping($wan2_ip,$GLOBALS["config"]["ping_ip"]).' ms';
 echo '<br>';
 echo '';
 echo '<br>';

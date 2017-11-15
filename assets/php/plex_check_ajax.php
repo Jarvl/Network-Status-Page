@@ -1,7 +1,6 @@
 <?php
 	Ini_Set( 'display_errors', true );
 	include '../../init.php';
-	include 'functions.php';
 
 	$plexNetwork = getNetwork("plex");
 

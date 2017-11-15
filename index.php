@@ -2,11 +2,7 @@
 <?php
 	Error_Reporting( E_ALL | E_STRICT );
 	Ini_Set( 'display_errors', true);
-
 	include 'init.php';
-	include ROOT_DIR . '/assets/php/Mobile_Detect.php';
-
-	$detect = new Mobile_Detect;
 ?>
 <html lang="en">
 	<head>
@@ -149,25 +145,11 @@
 						<!-- Center Area -->
 						<div class="col-md-6">
 							<div id="cp_movies_title"></div>
-							<?php echo '<div id="cp_movies"';
-							// Check to see if we're on a mobile device because overflow scrolling sucks on them.
-							// If we're on a cellphone disable the overflow:auto feature.
-							if ( $detect->isMobile() ):
-								echo '>';
-							else:
-								echo ' style="overflow:auto;">';
-							endif;
-								echo '</div>';?>
+							<div id="cp_movies"></div>
 							<hr class="visible-xs visible-sm">
 						</div>
 						<!-- Right sidebar -->
-						<?php echo '<div class="col-md-3"';
-						// Only apply padding on top of this column if its not on a cell phone but exclude tablets
-						if( $detect->isMobile() && !$detect->isTablet() ):
-							echo '>';
-						else:
-							echo ' style="padding-top: 20px;">';
-						endif;?>
+						<div class="col-md-3">
 							<!-- Load Panel -->
 							<div class="panel panel-default">
 								<div class="panel-heading">

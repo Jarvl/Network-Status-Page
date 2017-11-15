@@ -1,10 +1,9 @@
 <?php
 	Ini_Set( 'display_errors', true );
 	include '../../init.php';
-	include 'functions.php';
 	
 	$network = getNetwork();
-	$plexSessionXML = simplexml_load_file($network.':'.$plex_port.'/status/sessions');
+	$plexSessionXML = simplexml_load_file($network.':'.$GLOBALS["config"]["plex_port"].'/status/sessions');
 
 	$plexSessionID = $_GET['id'];
 

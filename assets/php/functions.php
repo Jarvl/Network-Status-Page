@@ -1,36 +1,5 @@
 <?php
-
-$config_path = '../../../config.ini'; //path to config file, recommend you place it outside of web root (Currently referencing to one directory up from web root)
-
 Ini_Set( 'display_errors', false);
-include '../../init.php';
-include 'lib/phpseclib0.3.5/Net/SSH2.php';
-$config = parse_ini_file($config_path);
-
-// Import variables from config file
-
-// Network Details
-$wan_domain = $config['wan_domain'];
-$wan1_ip = $config['wan1_ip'];
-$ping_ip = $config['ping_ip'];
-$plex_server_ip = $config['plex_server_ip'];
-$plex_port = $config['plex_port'];
-
-// Credentials
-$plex_username = $config['plex_username'];
-$plex_password = $config['plex_password'];
-$trakt_username = $config['trakt_username'];
-
-// API Keys
-$forecast_api = $config['forecast_api'];
-$couchpotato_api = $config['couchpotato_api'];
-
-// Misc
-$cpu_cores = $config['cpu_cores'];
-$weather_always_display = $config['weather_always_display'];
-$weather_lat = $config['weather_lat'];
-$weather_long = $config['weather_long'];
-$weather_name = $config['weather_name'];
 
 // Set the path for the Plex Token
 $plexTokenCache = ROOT_DIR . '/assets/caches/plex_token.txt';
@@ -229,8 +198,7 @@ function getDiskspaceTV2($dir)
 */
 function getLoad($id)
 {
-	global $cpu_cores;
-	return 100 * ($GLOBALS['loads'][$id] / $cpu_cores);
+	return 100 * ($GLOBALS['loads'][$id] / $GLOBALS["config"]["cpu_cores"]);
 }
 
 function printBar($value, $name = "")
@@ -328,12 +296,10 @@ function printTotalDiskBar($dup, $name = "", $dsu, $dts)
 
 function ping()
 {
-	global $ping_ip;
-
 	$clientIP = get_client_ip();
 	$pingIP = '8.8.8.8';
 
-	$terminal_output = shell_exec('ping -c 5 -q '.$ping_ip);
+	$terminal_output = shell_exec('ping -c 5 -q '.$GLOBALS["config"]["ping_ip"]);
 	// If using something besides OS X you might want to customize the following variables for proper output of average ping.
 	$findme_start = '= ';
 	$start = strpos($terminal_output, $findme_start);
@@ -352,12 +318,11 @@ function getNetwork($subdomain = "")
 {
 	// It should be noted that this function is designed specifically for getting the local / wan name for Plex.
 	// I kept this function here so I didn't have to refactor a bunch of code
-	global $wan_domain;
 	if ($subdomain != "") {
-		$network='http://'.$subdomain.".".$wan_domain;
+		$network='http://'.$subdomain.".".$GLOBALS["config"]["wan_domain"];
 	}
 	else {
-		$network='http://'.$wan_domain;
+		$network='http://'.$GLOBALS["config"]["wan_domain"];
 	}
 	return $network;
 }
@@ -376,20 +341,15 @@ function get_client_ip()
 
 function makeRecenlyViewed()
 {
-	//global $local_pfsense_ip;
-	global $trakt_username;
-	global $weather_lat;
-	global $weather_long;
-	global $weather_name;
 	$network = getNetwork();
 	$plexNetwork = getNetwork("plex");
 	$clientIP = get_client_ip();
 	$plexSessionXML = simplexml_load_file($plexNetwork.'/status/sessions');
-	$trakt_url = 'http://trakt.tv/user/'.$trakt_username.'/widgets/watched/all-tvthumb.jpg';
-	$traktThumb = '/var/www/'.$wan_domain.'/public_html/assets/caches/thumbnails/all-tvthumb.jpg';
+	$trakt_url = 'http://trakt.tv/user/'.$GLOBALS["config"]["trakt_username"].'/widgets/watched/all-tvthumb.jpg';
+	$traktThumb = '/var/www/'.$GLOBALS["config"]["wan_domain"].'/public_html/assets/caches/thumbnails/all-tvthumb.jpg';
 
 	echo '<div class="col-md-12">';
-	echo '<a href="http://trakt.tv/users/'.$trakt_username.'" class="thumbnail">';
+	echo '<a href="http://trakt.tv/users/'.$GLOBALS["config"]["trakt_username"].'" class="thumbnail">';
 	if (file_exists($traktThumb) && (filemtime($traktThumb) > (time() - 60 * 15))) {
 		// Trakt image is less than 15 minutes old.
 		// Don't refresh the image, just use the file as-is.
@@ -414,7 +374,7 @@ function makeRecenlyViewed()
 		echo '<hr>';
 		echo '<h1 class="exoextralight" style="margin-top:5px;">';
 		echo 'Forecast</h1>';
-		echo '<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat='.$weather_lat.'&lon='.$weather_long.'&name='.$weather_name.'"> </iframe>';
+		echo '<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat='.$GLOBALS["config"]["weather_lat"].'&lon='.$GLOBALS["config"]["weather_long"].'&name='.$GLOBALS["config"]["weather_name"].'"> </iframe>';
 	//}
 	echo '</div>';
 }
@@ -597,10 +557,8 @@ function makeNowPlaying()
 
 function parseCpMovies($status)
 {
-	global $couchpotato_api;
-
 	$cpNetwork = getNetwork("couchpotato");
-	$url = $cpNetwork."/api/".$couchpotato_api."/movie.list/?";
+	$url = $cpNetwork."/api/".$GLOBALS["config"]["couchpotato_api"]."/movie.list/?";
 	$count = 0;
 	$movie_array = [];
 
@@ -628,9 +586,6 @@ function parseCpMovies($status)
 
 function makeCpMovies()
 {
-	global $weather_lat;
-	global $weather_long;
-	global $weather_name;
 	$clientIP = get_client_ip();
 
 	$cpMovies;
@@ -694,7 +649,7 @@ function makeCpMovies()
 		echo '<hr>';
 		echo '<h1 class="exoextralight" style="margin-top:5px;">';
 		echo 'Forecast</h1>';
-		echo '<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat='.$weather_lat.'&lon='.$weather_long.'&name='.$weather_name.'"> </iframe>';
+		echo '<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat='.$GLOBALS["config"]["weather_lat"].'&lon='.$GLOBALS["config"]["weather_long"].'&name='.$GLOBALS["config"]["weather_name"].'"> </iframe>';
 	}
 }
 
@@ -772,9 +727,6 @@ function printBandwidthBar($percent, $name = "", $Mbps)
 
 function getPlexToken()
 {
-	global $plex_username;
-	global $plex_password;
-
 	$curl_http_headers = [
 		'X-Plex-Client-Identifier: my-app',
 		'Content-Length: 0'
@@ -782,7 +734,7 @@ function getPlexToken()
 	$curl = curl_init('https://my.plexapp.com/users/sign_in.xml');
 	curl_setopt($curl, CURLOPT_HEADER, FALSE);
 	curl_setopt($curl, CURLOPT_HTTPHEADER, $curl_http_headers);
-	curl_setopt($curl, CURLOPT_USERPWD, $plex_username .':'. $plex_password);
+	curl_setopt($curl, CURLOPT_USERPWD, $GLOBALS["config"]["plex_username"] .':'. $GLOBALS["config"]["plex_password"]);
 	curl_setopt($curl, CURLOPT_TIMEOUT, 10);
 	curl_setopt($curl, CURLOPT_POST, TRUE);
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
@@ -814,11 +766,8 @@ function getDir($b)
 
 function makeWeatherSidebar()
 {
-	global $forecast_api;
-	global $weather_lat;
-	global $weather_long;
 	$forecastExcludes = '?exclude=flags'; // Take a look at https://developer.forecast.io/docs/v2 to configure your weather information.
-	$currentForecast = json_decode(file_get_contents('https://api.forecast.io/forecast/'.$forecast_api.'/'.$weather_lat.','.$weather_long.$forecastExcludes));
+	$currentForecast = json_decode(file_get_contents('https://api.forecast.io/forecast/'.$GLOBALS["config"]["darksky_api"].'/'.$GLOBALS["config"]["weather_lat"].','.$GLOBALS["config"]["weather_long"].$forecastExcludes));
 
 	$currentSummary = $currentForecast->currently->summary;
 	$currentSummaryIcon = $currentForecast->currently->icon;
@@ -893,7 +842,7 @@ function makeWeatherSidebar()
 	echo '<h4 class="exoregular">The Sun</h4>';
 	echo '<h5 class="exoextralight" style="margin-top:10px">'.$rises.' at '.date('g:i A', $sunriseTime).'</h5>';
 	echo '<h5 class="exoextralight" style="margin-top:10px">'.$sets.' at '.date('g:i A', $sunsetTime).'</h5>';
-	echo '<p class="text-right no-link-color" style="margin-bottom:-10px"><small><a href="http://forecast.io/#/f/'.$weather_lat.','.$weather_long.'">Forecast.io</a></small></p> ';
+	echo '<p class="text-right no-link-color" style="margin-bottom:-10px"><small><a href="http://forecast.io/#/f/'.$GLOBALS["config"]["weather_lat"].','.$GLOBALS["config"]["weather_long"].'">Forecast.io</a></small></p> ';
 }
 
 ?>

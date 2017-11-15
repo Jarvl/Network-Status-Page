@@ -1,7 +1,6 @@
 <?php
 	Ini_Set( 'display_errors', true );
 	include '../../init.php';
-	include 'functions.php';
 
 	// This is separate from the now_playing div because the now_playing div
 	// is a special scrollable div and we don't want the title scrolling with it.
