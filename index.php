@@ -7,7 +7,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Hill 364</title>
+		<title><?=$GLOBALS["config"]["misc"]["siteTitle"]?></title>
 		<meta name="author" content="Hill364">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!-- Styles -->
