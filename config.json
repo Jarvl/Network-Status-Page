@@ -1,0 +1,29 @@
+// It is recommended that you place this file outside of web root.
+{
+    "networkDetails": {
+        "localServerIp": "127.0.0.1", // don't include http://
+        "wanDomain": "janky.computer", // don't include http://
+        "wanIp": "127.0.0.1",
+        "pingIp": "8.8.8.8", // IP address for the server to ping to get a sense of connection quality. By default it's Google's DNS service.
+        "plexServerIp": "127.0.0.1", // Can be relative to localServerIp, i.e. 127.0.0.1
+        "plexPort": 32400 // Plex Media Server port set in Settings -> Plex Media Server -> myPlex -> Advanced Settings
+    },
+    "credentials": {
+        "plexUsername": "email@example.com", // myPlex username or email address
+        "plexPassword": "password", // myPlex password
+        "traktUsername": "jarvl" // Trakt.tv account name. There is a plugin for Plex Media Server to track what is watched.
+    },
+    "apiKeys": {
+        "darkskyApi": "",
+        "couchpotatoApi": ""
+    },
+    "weather": {
+        "weatherLat": "39.1031", // Latitude to be used for weather
+        "weatherLong": "84.5120", // Longitude to be used for weather
+        "weatherName": "Cincinnati, OH" // This is the user friendly name for your location. Only seen on the weekly forecast when PMS is offline
+    },
+    "misc": {
+        "cpuCores": 1, // Number of logical CPU cores in your server. Use 'sysctl hw.ncpu' in the terminal if you are unsure
+        "siteTitle": "Janky Computer"
+    }
+}
