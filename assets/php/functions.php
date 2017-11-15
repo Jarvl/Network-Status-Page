@@ -53,8 +53,8 @@ function makeCpuBars()
 
 function makeTotalDiskSpace()
 {
-	$du = getDiskspaceUsed("/media/server") + getDiskspaceUsed("/media/Videos")/* + getDiskspaceUsed("/Volumes/Time Machine") + getDiskspaceUsed("/Volumes/Isengard") + getDiskspaceUsed("/Volumes/1TB Portable") + getDiskspaceUsed("/Volumes/WD2.2") + getDiskspaceUsed("/Volumes/WD2.1") + getDiskspaceUsed("/Volumes/Barad-dur") + getDiskspaceUsed("/Volumes/Erebor") + getDiskspaceUsed("/Volumes/Television") + getDiskspaceUsed("/Volumes/Television 2")*/;
-	$dts = disk_total_space("/media/server") + disk_total_space("/media/Videos")/* + disk_total_space("/Volumes/Time Machine") + disk_total_space("/Volumes/Isengard") + disk_total_space("/Volumes/1TB Portable") + disk_total_space("/Volumes/WD2.2") + disk_total_space("/Volumes/WD2.1") + disk_total_space("/Volumes/Barad-dur") + $GLOBALS['ereborTotalSpace'] + $GLOBALS['televisionTotalSpace'] + $GLOBALS['television2TotalSpace']*/;
+	$du = getDiskspaceUsed("/")/* + getDiskspaceUsed("/media/Videos") + getDiskspaceUsed("/Volumes/Time Machine") + getDiskspaceUsed("/Volumes/Isengard") + getDiskspaceUsed("/Volumes/1TB Portable") + getDiskspaceUsed("/Volumes/WD2.2") + getDiskspaceUsed("/Volumes/WD2.1") + getDiskspaceUsed("/Volumes/Barad-dur") + getDiskspaceUsed("/Volumes/Erebor") + getDiskspaceUsed("/Volumes/Television") + getDiskspaceUsed("/Volumes/Television 2")*/;
+	$dts = disk_total_space("/")/* + disk_total_space("/media/Videos") + disk_total_space("/Volumes/Time Machine") + disk_total_space("/Volumes/Isengard") + disk_total_space("/Volumes/1TB Portable") + disk_total_space("/Volumes/WD2.2") + disk_total_space("/Volumes/WD2.1") + disk_total_space("/Volumes/Barad-dur") + $GLOBALS['ereborTotalSpace'] + $GLOBALS['televisionTotalSpace'] + $GLOBALS['television2TotalSpace']*/;
 	$dfree = $dts - $du;
 	printTotalDiskBar(sprintf('%.0f',($du / $dts) * 100), "Total Capacity", $dfree, $dts);
 }
@@ -105,8 +105,8 @@ function makeDiskBars()
 	// That is why you see the total space in bytes.
 
 	// TODO: Figure out why /dev/sda1 has wrong values for free and total space
-	printDiskBar(getDiskspace("/media/server"), "Primary HDD", disk_free_space("/media/server"), disk_total_space("/media/server"));
-	printDiskBar(getDiskspace("/media/Videos"), "The Big One", disk_free_space("/media/Videos"), disk_total_space("/media/Videos"));
+	printDiskBar(getDiskspace("/"), "Primary HDD", disk_free_space("/"), disk_total_space("/"));
+	//printDiskBar(getDiskspace("/media/Videos"), "The Big One", disk_free_space("/media/Videos"), disk_total_space("/media/Videos"));
 
 	//printDiskBar(getDiskspace("/Volumes/Time Machine"), "Time Machine", disk_free_space("/Volumes/Time Machine"), disk_total_space("/Volumes/Time Machine"));
 	//printDiskBar(getDiskspace("/Volumes/Isengard"), "Isengard", disk_free_space("/Volumes/Isengard"), disk_total_space("/Volumes/Isengard"));
@@ -136,8 +136,11 @@ function getFreeRam()
 	// Keep in mind that this is using MemAvailable not MemFree
 
 	// Parse Meminfo file and store in array (specific to Linux)
-	$data = explode("\n", file_get_contents("/proc/meminfo"));
-    $meminfo = array();
+	$data = explode("\n", trim(file_get_contents("/proc/meminfo"), "\n"));
+	$meminfo = array();
+
+	//echo json_encode($data);
+
     foreach ($data as $line) {
     	list($key, $val) = explode(":", $line);
     	// delete kB in meminfo output and trim
