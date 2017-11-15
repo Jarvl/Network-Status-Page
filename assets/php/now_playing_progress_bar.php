@@ -3,7 +3,7 @@
 	include '../../init.php';
 	
 	$network = getNetwork();
-	$plexSessionXML = simplexml_load_file($network.':'.$GLOBALS["config"]["plex_port"].'/status/sessions');
+	$plexSessionXML = simplexml_load_file($network.':'.$GLOBALS["config"]["networkDetails"]["plexPort"].'/status/sessions');
 
 	$plexSessionID = $_GET['id'];
 

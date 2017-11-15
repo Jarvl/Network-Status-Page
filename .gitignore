@@ -1,3 +1,5 @@
+.DS_Store
+.vscode
 assets/caches/*
 !assets/caches/.gitkeep
 assets/php/analyticstracking.php

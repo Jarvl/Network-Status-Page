@@ -201,7 +201,7 @@ function getDiskspaceTV2($dir)
 */
 function getLoad($id)
 {
-	return 100 * ($GLOBALS['loads'][$id] / $GLOBALS["config"]["cpu_cores"]);
+	return 100 * ($GLOBALS['loads'][$id] / $GLOBALS["config"]["misc"]["cpuCores"]);
 }
 
 function printBar($value, $name = "")
@@ -302,7 +302,7 @@ function ping()
 	$clientIP = get_client_ip();
 	$pingIP = '8.8.8.8';
 
-	$terminal_output = shell_exec('ping -c 5 -q '.$GLOBALS["config"]["ping_ip"]);
+	$terminal_output = shell_exec('ping -c 5 -q '.$GLOBALS["config"]["networkDetails"]["pingIp"]);
 	// If using something besides OS X you might want to customize the following variables for proper output of average ping.
 	$findme_start = '= ';
 	$start = strpos($terminal_output, $findme_start);
@@ -322,10 +322,10 @@ function getNetwork($subdomain = "")
 	// It should be noted that this function is designed specifically for getting the local / wan name for Plex.
 	// I kept this function here so I didn't have to refactor a bunch of code
 	if ($subdomain != "") {
-		$network='http://'.$subdomain.".".$GLOBALS["config"]["wan_domain"];
+		$network='http://'.$subdomain.".".$GLOBALS["config"]["networkDetails"]["wanDomain"];
 	}
 	else {
-		$network='http://'.$GLOBALS["config"]["wan_domain"];
+		$network='http://'.$GLOBALS["config"]["networkDetails"]["wanDomain"];
 	}
 	return $network;
 }
@@ -348,11 +348,11 @@ function makeRecenlyViewed()
 	$plexNetwork = getNetwork("plex");
 	$clientIP = get_client_ip();
 	$plexSessionXML = simplexml_load_file($plexNetwork.'/status/sessions');
-	$trakt_url = 'http://trakt.tv/user/'.$GLOBALS["config"]["trakt_username"].'/widgets/watched/all-tvthumb.jpg';
-	$traktThumb = '/var/www/'.$GLOBALS["config"]["wan_domain"].'/public_html/assets/caches/thumbnails/all-tvthumb.jpg';
+	$trakt_url = 'http://trakt.tv/user/'.$GLOBALS["config"]["credentials"]["traktUsername"].'/widgets/watched/all-tvthumb.jpg';
+	$traktThumb = '/var/www/'.$GLOBALS["config"]["networkDetails"]["wanDomain"].'/public_html/assets/caches/thumbnails/all-tvthumb.jpg';
 
 	echo '<div class="col-md-12">';
-	echo '<a href="http://trakt.tv/users/'.$GLOBALS["config"]["trakt_username"].'" class="thumbnail">';
+	echo '<a href="http://trakt.tv/users/'.$GLOBALS["config"]["credentials"]["traktUsername"].'" class="thumbnail">';
 	if (file_exists($traktThumb) && (filemtime($traktThumb) > (time() - 60 * 15))) {
 		// Trakt image is less than 15 minutes old.
 		// Don't refresh the image, just use the file as-is.
@@ -377,7 +377,7 @@ function makeRecenlyViewed()
 		echo '<hr>';
 		echo '<h1 class="exoextralight" style="margin-top:5px;">';
 		echo 'Forecast</h1>';
-		echo '<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat='.$GLOBALS["config"]["weather_lat"].'&lon='.$GLOBALS["config"]["weather_long"].'&name='.$GLOBALS["config"]["weather_name"].'"> </iframe>';
+		echo '<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat='.$GLOBALS["config"]["weather"]["weatherLat"].'&lon='.$GLOBALS["config"]["weather"]["weatherLong"].'&name='.$GLOBALS["config"]["weather"]["weatherName"].'"> </iframe>';
 	//}
 	echo '</div>';
 }
@@ -561,7 +561,7 @@ function makeNowPlaying()
 function parseCpMovies($status)
 {
 	$cpNetwork = getNetwork("couchpotato");
-	$url = $cpNetwork."/api/".$GLOBALS["config"]["couchpotato_api"]."/movie.list/?";
+	$url = $cpNetwork."/api/".$GLOBALS["config"]["apiKeys"]["couchpotatoApi"]."/movie.list/?";
 	$count = 0;
 	$movie_array = [];
 
@@ -653,7 +653,7 @@ function makeCpMovies()
 		echo '<hr>';
 		echo '<h1 class="exoextralight" style="margin-top:5px;">';
 		echo 'Forecast</h1>';
-		echo '<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat='.$GLOBALS["config"]["weather_lat"].'&lon='.$GLOBALS["config"]["weather_long"].'&name='.$GLOBALS["config"]["weather_name"].'"> </iframe>';
+		echo '<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat='.$GLOBALS["config"]["weather"]["weatherLat"].'&lon='.$GLOBALS["config"]["weather"]["weatherLong"].'&name='.$GLOBALS["config"]["weather"]["weatherName"].'"> </iframe>';
 	}
 }
 
@@ -738,7 +738,7 @@ function getPlexToken()
 	$curl = curl_init('https://my.plexapp.com/users/sign_in.xml');
 	curl_setopt($curl, CURLOPT_HEADER, FALSE);
 	curl_setopt($curl, CURLOPT_HTTPHEADER, $curl_http_headers);
-	curl_setopt($curl, CURLOPT_USERPWD, $GLOBALS["config"]["plex_username"] .':'. $GLOBALS["config"]["plex_password"]);
+	curl_setopt($curl, CURLOPT_USERPWD, $GLOBALS["config"]["credentials"]["plexUsername"] .':'. $GLOBALS["credentials"]["plexPassword"]);
 	curl_setopt($curl, CURLOPT_TIMEOUT, 10);
 	curl_setopt($curl, CURLOPT_POST, TRUE);
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
@@ -771,7 +771,7 @@ function getDir($b)
 function makeWeatherSidebar()
 {
 	$forecastExcludes = '?exclude=flags'; // Take a look at https://developer.forecast.io/docs/v2 to configure your weather information.
-	$currentForecast = json_decode(file_get_contents('https://api.darksky.net/forecast/'.$GLOBALS["config"]["darksky_api"].'/'.$GLOBALS["config"]["weather_lat"].','.$GLOBALS["config"]["weather_long"].$forecastExcludes));
+	$currentForecast = json_decode(file_get_contents('https://api.darksky.net/forecast/'.$GLOBALS["config"]["apiKeys"]["darkskyApi"].'/'.$GLOBALS["config"]["weather"]["weatherLat"].','.$GLOBALS["config"]["weather"]["weatherLong"].$forecastExcludes));
 	$currentSummary = $currentForecast->currently->summary;
 	$currentSummaryIcon = $currentForecast->currently->icon;
 	$currentTemp = round($currentForecast->currently->temperature);
@@ -845,7 +845,7 @@ function makeWeatherSidebar()
 	echo '<h4 class="exoregular">The Sun</h4>';
 	echo '<h5 class="exoextralight" style="margin-top:10px">'.$rises.' at '.date('g:i A', $sunriseTime).'</h5>';
 	echo '<h5 class="exoextralight" style="margin-top:10px">'.$sets.' at '.date('g:i A', $sunsetTime).'</h5>';
-	echo '<p class="text-right no-link-color" style="margin-bottom:-10px"><small><a href="http://forecast.io/#/f/'.$GLOBALS["config"]["weather_lat"].','.$GLOBALS["config"]["weather_long"].'">Forecast.io</a></small></p> ';
+	echo '<p class="text-right no-link-color" style="margin-bottom:-10px"><small><a href="http://forecast.io/#/f/'.$GLOBALS["config"]["weather"]["weatherLat"].','.$GLOBALS["config"]["weather"]["weatherLong"].'">Forecast.io</a></small></p> ';
 }
 
 ?>
