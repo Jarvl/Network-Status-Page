@@ -334,6 +334,7 @@ function composeUrl($domain, $sub_domain = "", $url_directory = "", $https = fal
 	if ( !empty($url_directory) ) {
 		$url .= ltrim($url_directory, "/");
 	}
+	return $url;
 }
 
 function get_client_ip()
