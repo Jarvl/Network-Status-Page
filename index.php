@@ -144,6 +144,7 @@
 						</div>
 						<!-- Center Area -->
 						<div class="col-md-6">
+							<div id="plexCurrentlyPlaying"></div>
 							<!--<div id="cp_movies_title"></div>
 							<div id="cp_movies"></div>-->
 							<hr class="visible-xs visible-sm">
@@ -268,6 +269,7 @@
 	        	var $disk_space_refresh = $('#disk_space');
 	        	//var $cp_movies_title_refresh = $('#cp_movies_title');
 	        	//var $cp_movies_refresh = $('#cp_movies');
+				var $plex_currently_playing = $("#plexCurrentlyPlaying");
 
 	        	// Load external php files & assign variables
 	        	//$cp_movies_title_refresh.load("assets/php/cp_movies_title_ajax.php");
@@ -279,6 +281,7 @@
 	        	$system_load_refresh.load("assets/php/system_load_ajax.php");
 	        	$system_ram_refresh.load("assets/php/system_ram_ajax.php");
 	        	$disk_space_refresh.load("assets/php/disk_space_ajax.php");
+				$plex_currently_playing.load("assets/php/now_playing_ajax.php")
 /*
 				var refreshIdfastest = setInterval(function(){
 	        		$plex_check_refresh.load('assets/php/plex_check_ajax.php');

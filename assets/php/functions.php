@@ -341,9 +341,9 @@ function get_client_ip()
 function makeRecenlyViewed()
 {
 	$network = getNetwork();
-	$plexNetwork = getNetwork("plex");
+	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subomain"], 'status/sessions?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
 	$clientIP = get_client_ip();
-	$plexSessionXML = simplexml_load_file($plexNetwork.'/status/sessions');
+	$plexSessionXML = simplexml_load_file($plex_url);
 	$trakt_url = 'http://trakt.tv/user/'.$GLOBALS["config"]["credentials"]["traktUsername"].'/widgets/watched/all-tvthumb.jpg';
 	$traktThumb = '/var/www/'.$GLOBALS["config"]["networkDetails"]["wanDomain"].'/public_html/assets/caches/thumbnails/all-tvthumb.jpg';
 
@@ -381,10 +381,10 @@ function makeRecenlyViewed()
 function makeRecenlyReleased()
 {
 	// Various items are commented out as I was playing with what information to include.
-	$network = getNetwork("plex");
+	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subomain"], 'library/recentlyAdded?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
 	$clientIP = get_client_ip();
 	// This might need to be changed from recently added
-	$plexNewestXML = simplexml_load_file($network.'/library/recentlyAdded');
+	$plexNewestXML = simplexml_load_file($plex_url);
 
 	//echo '<div class="col-md-10 col-sm-offset-1">';
 	echo '<div class="col-md-12">';
@@ -431,21 +431,21 @@ function makeRecenlyReleased()
 
 function makeNowPlaying()
 {
-	$network = getNetwork("plex");
-	$plexSessionXML = simplexml_load_file($network.'/status/sessions');
+	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subomain"], 'status/sessions?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
+	$plexSessionXML = simplexml_load_file($plex_url);
 
-	if (!$plexSessionXML):
+	if (!$plexSessionXML || count($plexSessionXML->Video) == 0):
 		makeRecenlyViewed();
-	elseif (count($plexSessionXML->Video) == 0):
-		makeRecenlyReleased();
+	/*elseif (count($plexSessionXML->Video) == 0):
+		makeRecenlyReleased();*/
 	else:
 		$i = 0; // Initiate and assign a value to i & t
-		$t = 0; // T is the total amount of sessions
+		$t = count($plexSessionXML->Video); // T is the total amount of sessions
 		echo '<div class="col-md-10 col-sm-offset-1">';
 		//echo '<div class="col-md-12">';
-		foreach ($plexSessionXML->Video as $sessionInfo):
+		/*foreach ($plexSessionXML->Video as $sessionInfo):
 			$t++;
-		endforeach;
+		endforeach;*/
 		foreach ($plexSessionXML->Video as $sessionInfo):
 			$mediaKey = $sessionInfo['key'];
 			$playerTitle = $sessionInfo->Player['title'];
