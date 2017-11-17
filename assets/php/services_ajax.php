@@ -8,13 +8,7 @@ $services = array();
 
 foreach ($GLOBALS['config']['services'] as $service) {
 	// Build URL
-	$url = ( $service['https'] === true ) ? "https" : "http";
-	$url .= ("://" . $service['subdomain'] . "." . $GLOBALS["config"]["networkDetails"]["wanDomain"] . "/");
-	// URL directory appended to the domain
-	if (!empty($service['urlDirectory'])) {
-		$url .= ltrim($service['urlDirectory'], "/");
-	}
-
+	$url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $service['subdomain'], $service['urlDirectory'], $service["https"]);
 	array_push($services, new Service($service["name"], $service["port"], $url));
 }
 ?>

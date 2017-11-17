@@ -321,6 +321,21 @@ function getNetwork($subdomain = "")
 	return $network;
 }
 
+function composeUrl($domain, $sub_domain = "", $url_directory = "", $https = false)
+{
+	// Build URL
+	$url = ( $https == true ) ? "https" : "http";
+	$url .= "://";
+	if (!empty($sub_domain)) {
+		$url .= "$sub_domain.";
+	}
+	$url .= "$domain/";
+	// URL directory appended to the domain
+	if ( !empty($url_directory) ) {
+		$url .= ltrim($url_directory, "/");
+	}
+}
+
 function get_client_ip()
 {
 	if ( isset($_SERVER["REMOTE_ADDR"])) {
