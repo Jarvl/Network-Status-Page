@@ -1,5 +1,5 @@
 <?php
-class service
+class Service
 {
 	public $name;
 	public $port;
@@ -7,17 +7,16 @@ class service
 	public $host;
 	public $status;
 
-	function __construct($name, $port, $url = "", $host = "localhost")
+	function __construct($name, $port, $url, $host = "localhost")
 	{
 		$this->name = $name;
 		$this->port = $port;
-		$this->url = $url;
 		$this->host = $host;
-
-		$this->status = $this->check_port();
+		$this->url = $url;
+		$this->status = $this->checkPort();
 	}
 
-	function check_port()
+	function checkPort()
 	{
 		$conn = @fsockopen($this->host, $this->port, $errno, $errstr, 0.5);
 		if ($conn)

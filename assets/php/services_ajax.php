@@ -1,8 +1,22 @@
 <!DOCTYPE html>
 <?php
-	Ini_Set( 'display_errors', true );
-	include '../../init.php';
-	include("service.class.php");
+Ini_Set( 'display_errors', true );
+include '../../init.php';
+include("service.class.php");
+
+$services = array();
+
+foreach ($GLOBALS['config']['services'] as $service) {
+	// Build URL
+	$url = ( $service['https'] === true ) ? "https" : "http";
+	$url .= ("://" . $service['subdomain'] . "." . $GLOBALS["config"]["networkDetails"]["wanDomain"] . "/");
+	// URL directory appended to the domain
+	if (!empty($url_directory)) {
+		$url .= ltrim($url_directory, "/");
+	}
+
+	array_push($services, new Service($service["name"], $service["port"], $url));
+}
 ?>
 <html lang="en">
 	<script>
@@ -11,19 +25,12 @@
 	        { $("[rel=tooltip]").tooltip();
 	        });
 	</script>
-<?php
-$services = array(
-	new service("Plex", 32400, "http://plex." . $GLOBALS["config"]["networkDetails"]["wanDomain"] . "/web/index.html#!/dashboard"),
-	new service("CouchPotato", 5050, "http://couchpotato." . $GLOBALS["config"]["networkDetails"]["wanDomain"]),
-	new service("Transmission", 9091, "http://transmission." . $GLOBALS["config"]["networkDetails"]["wanDomain"]),
-	new service("Sick Beard", 8081, "http://sickbeard." . $GLOBALS["config"]["networkDetails"]["wanDomain"]),
-);
-?>
-<table class="center">
-	<?php foreach($services as $service){ ?>
-		<tr>
-			<td style="text-align: right; padding-right:5px;" class="exoextralight"><?php echo $service->name; ?></td>
-			<td style="text-align: left;"><?php echo $service->makeButton(); ?></td>
-		</tr>
-	<?php }?>
-</table>
+
+	<table class="center">
+		<?php foreach($services as $service){ ?>
+			<tr>
+				<td style="text-align: right; padding-right:5px;" class="exoextralight"><?php echo $service->name; ?></td>
+				<td style="text-align: left;"><?php echo $service->makeButton(); ?></td>
+			</tr>
+		<?php }?>
+	</table>

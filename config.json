@@ -31,5 +31,14 @@
             "title": "Primary HDD",
             "location": "/"
         }
+    ],
+    "services": [
+        {
+            "name": "Plex",
+            "subdomain": "plex",
+            "port": 32400,
+            "urlDirectory": "/web/index.html",
+            "https": false
+        }
     ]
 }
