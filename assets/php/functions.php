@@ -446,7 +446,7 @@ function makeNowPlaying()
 	$plexSessionXML = getPlexSessions();
 
 	if (!$plexSessionXML || count($plexSessionXML->Video) == 0):
-		makeRecenlyViewed();
+		makeRecenlyReleased();
 	/*elseif (count($plexSessionXML->Video) == 0):
 		makeRecenlyReleased();*/
 	else:
