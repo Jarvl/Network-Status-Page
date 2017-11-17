@@ -341,7 +341,7 @@ function get_client_ip()
 function makeRecenlyViewed()
 {
 	$network = getNetwork();
-	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subomain"], 'status/sessions?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
+	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subdomain"], 'status/sessions?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
 	$clientIP = get_client_ip();
 	$plexSessionXML = simplexml_load_file($plex_url);
 	$trakt_url = 'http://trakt.tv/user/'.$GLOBALS["config"]["credentials"]["traktUsername"].'/widgets/watched/all-tvthumb.jpg';
@@ -381,7 +381,7 @@ function makeRecenlyViewed()
 function makeRecenlyReleased()
 {
 	// Various items are commented out as I was playing with what information to include.
-	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subomain"], 'library/recentlyAdded?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
+	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subdomain"], 'library/recentlyAdded?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
 	$clientIP = get_client_ip();
 	// This might need to be changed from recently added
 	$plexNewestXML = simplexml_load_file($plex_url);
@@ -431,7 +431,7 @@ function makeRecenlyReleased()
 
 function makeNowPlaying()
 {
-	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subomain"], 'status/sessions?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
+	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subdomain"], 'status/sessions?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
 	$plexSessionXML = simplexml_load_file($plex_url);
 
 	if (!$plexSessionXML || count($plexSessionXML->Video) == 0):

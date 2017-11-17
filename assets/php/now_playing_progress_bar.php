@@ -2,7 +2,7 @@
 	Ini_Set( 'display_errors', true );
 	include '../../init.php';
 	
-	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subomain"]);
+	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subdomain"]);
 	$plexSessionXML = simplexml_load_file($plex_url.'status/sessions?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
 
 	$plexSessionID = $_GET['id'];
