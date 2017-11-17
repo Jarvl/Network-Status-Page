@@ -11,8 +11,8 @@ foreach ($GLOBALS['config']['services'] as $service) {
 	$url = ( $service['https'] === true ) ? "https" : "http";
 	$url .= ("://" . $service['subdomain'] . "." . $GLOBALS["config"]["networkDetails"]["wanDomain"] . "/");
 	// URL directory appended to the domain
-	if (!empty($url_directory)) {
-		$url .= ltrim($url_directory, "/");
+	if (!empty($service['urlDirectory'])) {
+		$url .= ltrim($service['urlDirectory'], "/");
 	}
 
 	array_push($services, new Service($service["name"], $service["port"], $url));
