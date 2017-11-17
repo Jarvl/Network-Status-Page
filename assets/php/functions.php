@@ -429,10 +429,21 @@ function makeRecenlyReleased()
 	echo '</div>'; // Close column div
 }
 
+function getPlexXML($directory)
+{
+	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subdomain"], trim($directory, '/') . '?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
+	$plexSessionXML = simplexml_load_file($plex_url);
+	return $plexSessionXML;
+}
+
+function getPlexSessions()
+{
+	return getPlexXML("status/sessions");
+}
+
 function makeNowPlaying()
 {
-	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subdomain"], 'status/sessions?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
-	$plexSessionXML = simplexml_load_file($plex_url);
+	$plexSessionXML = getPlexSessions();
 
 	if (!$plexSessionXML || count($plexSessionXML->Video) == 0):
 		makeRecenlyViewed();
