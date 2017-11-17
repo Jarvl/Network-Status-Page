@@ -9,11 +9,11 @@
         "plexPort": 32400 // Plex Media Server port set in Settings -> Plex Media Server -> myPlex -> Advanced Settings
     },
     "credentials": {
-        "plexUsername": "email@example.com", // myPlex username or email address
-        "plexPassword": "password", // myPlex password
         "traktUsername": "jarvl" // Trakt.tv account name. There is a plugin for Plex Media Server to track what is watched.
     },
     "apiKeys": {
+        // Getting a Plex auth token: https://support.plex.tv/hc/en-us/articles/204059436-Finding-an-authentication-token-X-Plex-Token
+        "plexAuthToken": "",
         "darkskyApi": "",
         "couchpotatoApi": ""
     },
@@ -32,6 +32,7 @@
             "location": "/"
         }
     ],
+    // If you are using plex, the key must be named as "plex"
     "services": {
         "plex": {
             "name": "Plex",

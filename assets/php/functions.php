@@ -1,17 +1,6 @@
 <?php
 Ini_Set( 'display_errors', true);
 
-// Set the path for the Plex Token
-$plexTokenCache = ROOT_DIR . '/assets/caches/plex_token.txt';
-// Check to see if the plex token exists and is younger than one week
-// if not grab it and write it to our caches folder
-if (file_exists($plexTokenCache) && (filemtime($plexTokenCache) > (time() - 60 * 60 * 24 * 7))) {
-	$plexToken = file_get_contents(ROOT_DIR . '/assets/caches/plex_token.txt');
-} else {
-	file_put_contents($plexTokenCache, getPlexToken());
-	$plexToken = file_get_contents(ROOT_DIR . '/assets/caches/plex_token.txt');
-}
-
 // Calculate server load
 //if (strpos(strtolower(PHP_OS), "linux") === false)
 	$loads = sys_getloadavg();
@@ -734,27 +723,6 @@ function printBandwidthBar($percent, $name = "", $Mbps)
 			echo '<div class="progress-bar" style="width: ' . $percent . '%"></div>';
 		echo '</div>';
 	echo '</div>';
-}
-
-function getPlexToken()
-{
-	$curl_http_headers = [
-		'X-Plex-Client-Identifier: my-app',
-		'Content-Length: 0'
-	];
-	$curl = curl_init('https://my.plexapp.com/users/sign_in.xml');
-	curl_setopt($curl, CURLOPT_HEADER, FALSE);
-	curl_setopt($curl, CURLOPT_HTTPHEADER, $curl_http_headers);
-	curl_setopt($curl, CURLOPT_USERPWD, $GLOBALS["config"]["credentials"]["plexUsername"] .':'. $GLOBALS["credentials"]["plexPassword"]);
-	curl_setopt($curl, CURLOPT_TIMEOUT, 10);
-	curl_setopt($curl, CURLOPT_POST, TRUE);
-	curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-	$curl_result = curl_exec($curl);
-
-	$myPlex_xml = simplexml_load_string($curl_result);
-	$token = $curl_result->{"authentication-token"};
-
-	return $token;
 }
 
 function countWords($string)
