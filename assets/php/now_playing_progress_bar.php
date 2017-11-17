@@ -2,8 +2,8 @@
 	Ini_Set( 'display_errors', true );
 	include '../../init.php';
 	
-	$network = getNetwork();
-	$plexSessionXML = simplexml_load_file($network.':'.$GLOBALS["config"]["networkDetails"]["plexPort"].'/status/sessions');
+	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subomain"]);
+	$plexSessionXML = simplexml_load_file($plex_url.'status/sessions?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
 
 	$plexSessionID = $_GET['id'];
 

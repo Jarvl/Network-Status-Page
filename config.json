@@ -6,7 +6,8 @@
         "wanIp": "127.0.0.1",
         "pingIp": "8.8.8.8", // IP address for the server to ping to get a sense of connection quality. By default it's Google's DNS service.
         "plexServerIp": "127.0.0.1", // Can be relative to localServerIp, i.e. 127.0.0.1
-        "plexPort": 32400 // Plex Media Server port set in Settings -> Plex Media Server -> myPlex -> Advanced Settings
+        "plexRemotePort": 32400 // Plex Media Server port set in Settings -> Plex Media Server -> myPlex -> Advanced Settings
+        // TODO: Add max download and upload speeds
     },
     "credentials": {
         "traktUsername": "jarvl" // Trakt.tv account name. There is a plugin for Plex Media Server to track what is watched.
