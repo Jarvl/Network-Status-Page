@@ -381,11 +381,9 @@ function makeRecenlyViewed()
 function makeRecenlyReleased()
 {
 	// Various items are commented out as I was playing with what information to include.
-	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subdomain"], 'library/recentlyAdded?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
+	//$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subdomain"], 'library/recentlyAdded?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
+	$plexNewestXML = getPlexXML("library/recentlyAdded");
 	$clientIP = get_client_ip();
-	// This might need to be changed from recently added
-	$plexNewestXML = simplexml_load_file($plex_url);
-
 	//echo '<div class="col-md-10 col-sm-offset-1">';
 	echo '<div class="col-md-12">';
 	echo '<div id="carousel-example-generic" class=" carousel slide">';
@@ -393,22 +391,22 @@ function makeRecenlyReleased()
 	echo '<!-- Wrapper for slides -->';
 	echo '<div class="carousel-inner">';
 	echo '<div class="item active">';
-	$mediaKey = $plexNewestXML->Video[0]['key'];
-	$mediaXML = getPlexXML($plexNewestXML->Video[0]['key']);
+	$mediaKey = $plexNewestXML->Directory[0]['key'];
+	$mediaXML = getPlexXML($plexNewestXML->Directory[0]['key']);
 	$movieTitle = $mediaXML->Video['title'];
 	$movieArt = $mediaXML->Video['thumb'];
-	echo '<img src="'.$network.$movieArt.'" alt="'.$movieTitle.'">';
+	echo '<img src="'.getPlexURL($movieArt).'" alt="'.$movieTitle.'">';
 	echo '</div>'; // Close item div
 	$i=1;
 	for ( ; ; ) {
 		if($i==15) break;
-		$mediaKey = $plexNewestXML->Video[$i]['key'];
-		$mediaXML = simplexml_load_file($network.$mediaKey);
+		$mediaKey = $plexNewestXML->Directory[$i]['key'];
+		$mediaXML = getPlexXML($mediaKey);
 		$movieTitle = $mediaXML->Video['title'];
 		$movieArt = $mediaXML->Video['thumb'];
 		$movieYear = $mediaXML->Video['year'];
 		echo '<div class="item">';
-		echo '<img src="'.$network.$movieArt.'" alt="'.$movieTitle.'">';
+		echo '<img src="'.getPlexURL($movieArt).'" alt="'.$movieTitle.'">';
 		//echo '<div class="carousel-caption">';
 		//echo '<h3>'.$movieTitle.$movieYear.'</h3>';
 		//echo '<p>Summary</p>';
@@ -429,9 +427,14 @@ function makeRecenlyReleased()
 	echo '</div>'; // Close column div
 }
 
+function getPlexURL($directory)
+{
+	return composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subdomain"], trim($directory, '/') . '?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
+}
+
 function getPlexXML($directory)
 {
-	$plex_url = composeUrl($GLOBALS["config"]["networkDetails"]["wanDomain"], $GLOBALS["config"]["services"]["plex"]["subdomain"], trim($directory, '/') . '?X-Plex-Token=' . $GLOBALS["config"]["apiKeys"]["plexAuthToken"]);
+	$plex_url = getPlexURL($directory);
 	$plexSessionXML = simplexml_load_file($plex_url);
 	return $plexSessionXML;
 }
@@ -460,7 +463,7 @@ function makeNowPlaying()
 		foreach ($plexSessionXML->Video as $sessionInfo):
 			$mediaKey = $sessionInfo['key'];
 			$playerTitle = $sessionInfo->Player['title'];
-			$mediaXML = simplexml_load_file($network.$mediaKey);
+			$mediaXML = getPlexXML($mediaKey);
 			$type = $mediaXML->Video['type'];
 			echo '<div class="thumbnail">';
 			$i++; // Increment i every pass through the array
@@ -481,7 +484,7 @@ function makeNowPlaying()
 					$movieSummary = limitWords($mediaXML->Video['summary'],50); // Limit to 50 words
 					$movieSummary .= "..."; // Add ellipsis
 				endif;
-				echo '<img src="'.$network.$movieArt.'" alt="'.$movieTitle.'">';
+				echo '<img src="'.getPlexURL($movieArt).'" alt="'.$movieTitle.'">';
 				// Make now playing progress bar
 				//echo 'div id="now-playing-progress-bar">';
 				echo '<div class="progress now-playing-progress-bar">';
@@ -517,7 +520,7 @@ function makeNowPlaying()
 				$device = $plexSessionXML->Video[$i-1]->Player['title'];
 				$state = $plexSessionXML->Video[$i-1]->Player['state'];
 				//echo '<div class="img-overlay">';
-				echo '<img src="'.$network.$tvArt.'" alt="'.$showTitle.'">';
+				echo '<img src="'.getPlexURL($tvArt).'" alt="'.$showTitle.'">';
 				// Make now playing progress bar
 				//echo 'div id="now-playing-progress-bar">';
 				echo '<div class="progress now-playing-progress-bar">';
