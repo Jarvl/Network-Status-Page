@@ -271,7 +271,7 @@
 	        	//var $cp_movies_title_refresh = $('#cp_movies_title');
 	        	//var $cp_movies_refresh = $('#cp_movies');
 				var $plex_currently_playing = $("#plexCurrentlyPlaying");
-				var $plex_currently_playing_title = $("#$plexCurrentlyPlayingTitle");
+				var $plex_currently_playing_title = $("#plexCurrentlyPlayingTitle");
 
 	        	// Load external php files & assign variables
 	        	//$cp_movies_title_refresh.load("assets/php/cp_movies_title_ajax.php");
