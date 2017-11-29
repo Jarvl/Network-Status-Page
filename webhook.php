@@ -21,5 +21,5 @@ if ($hash !== $payloadHash) {
 else {
     $data = json_decode($payload);
     exec("cd /var/www/Network-Status-Page && git pull");
-    echo "thanks";
+    echo "thanks friend";
 }
