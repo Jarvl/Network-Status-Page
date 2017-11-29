@@ -25,7 +25,8 @@
     },
     "misc": {
         "cpuCores": 1, // Number of logical CPU cores in your server. Use 'sysctl hw.ncpu' in the terminal if you are unsure
-        "siteTitle": "Janky Computer"
+        "siteTitle": "Janky Computer",
+	"githubWebhookSecret": ""
     },
     "disks": [
         {
