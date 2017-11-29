@@ -394,7 +394,7 @@ function makeRecenlyReleased()
 	echo '<div class="carousel-inner">';
 	echo '<div class="item active">';
 	$mediaKey = $plexNewestXML->Video[0]['key'];
-	$mediaXML = simplexml_load_file($network.$mediaKey);
+	$mediaXML = getPlexXML($plexNewestXML->Video[0]['key']);
 	$movieTitle = $mediaXML->Video['title'];
 	$movieArt = $mediaXML->Video['thumb'];
 	echo '<img src="'.$network.$movieArt.'" alt="'.$movieTitle.'">';
@@ -573,7 +573,6 @@ function parseCpMovies($status)
 	$movie_array = [];
 
 	// API call
-	echo $url;
 	$json = file_get_contents($url.$status);
 	$obj = json_decode($json);
 
