@@ -1,5 +1,4 @@
 <?php
-	Ini_Set( 'display_errors', true );
 	include '../../init.php';
 
 	// This is separate from the now_playing div because the now_playing div
@@ -7,9 +6,7 @@
 	// You will only notice the scrolling feature when there are multiple
 	// shows being watched at the same time.
 	
-	// Use the plex subdomain
-	$network = getNetwork("plex");
-	$plexSessionXML = simplexml_load_file($network.'/status/sessions');
+	$plexSessionXML = getPlexSessions();
 
 	// See if Plex Media Server is online and how many people are watching.
 	if (!$plexSessionXML):
