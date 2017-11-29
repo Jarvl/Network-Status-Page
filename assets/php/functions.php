@@ -823,10 +823,10 @@ function makeWeatherSidebar()
 	echo '<h5 class="exoextralight" style="margin-top:10px">'.$hourlySummary.'</h5>';
 	echo '<h4 class="exoregular">Next Week</h4>';
 	echo '<h5 class="exoextralight" style="margin-top:10px">'.$dailySummary.'</h5>';
-	echo '<h4 class="exoregular">The Sun</h4>';
+	/*echo '<h4 class="exoregular">The Sun</h4>';
 	echo '<h5 class="exoextralight" style="margin-top:10px">'.$rises.' at '.date('g:i A', $sunriseTime).'</h5>';
 	echo '<h5 class="exoextralight" style="margin-top:10px">'.$sets.' at '.date('g:i A', $sunsetTime).'</h5>';
-	echo '<p class="text-right no-link-color" style="margin-bottom:-10px"><small><a href="http://forecast.io/#/f/'.$GLOBALS["config"]["weather"]["weatherLat"].','.$GLOBALS["config"]["weather"]["weatherLong"].'">Forecast.io</a></small></p> ';
+	echo '<p class="text-right no-link-color" style="margin-bottom:-10px"><small><a href="http://forecast.io/#/f/'.$GLOBALS["config"]["weather"]["weatherLat"].','.$GLOBALS["config"]["weather"]["weatherLong"].'">Forecast.io</a></small></p> ';*/
 }
 
 ?>
