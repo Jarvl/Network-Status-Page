@@ -386,31 +386,24 @@ function makeRecenlyReleased()
 	$clientIP = get_client_ip();
 	//echo '<div class="col-md-10 col-sm-offset-1">';
 	echo '<div class="col-md-12">';
-	echo '<div id="carousel-example-generic" class=" carousel slide">';
+	echo '<div id="carousel-example-generic" class="carousel slide">';
 	echo '<div class="thumbnail">';
 	echo '<!-- Wrapper for slides -->';
 	echo '<div class="carousel-inner">';
-	echo '<div class="item active">';
-	$mediaKey = $plexNewestXML->Directory[0]['key'];
-	$mediaXML = getPlexXML($plexNewestXML->Directory[0]['key']);
-	$movieTitle = $mediaXML->Video['title'];
-	$movieArt = $mediaXML->Video['thumb'];
-	echo '<img src="'.getPlexURL($movieArt).'" alt="'.$movieTitle.'">';
-	echo '</div>'; // Close item div
-	$i=1;
-	for ( ; ; ) {
-		if($i==15) break;
+	$i = 0;
+	while ($i < count($plexNewestXML->Directory) && $i < 15)
+	{
 		$mediaKey = $plexNewestXML->Directory[$i]['key'];
 		$mediaXML = getPlexXML($mediaKey);
 		$movieTitle = $mediaXML->Video['title'];
 		$movieArt = $mediaXML->Video['thumb'];
-		$movieYear = $mediaXML->Video['year'];
-		echo '<div class="item">';
+		//$movieYear = $mediaXML->Video['year'];
+		echo '<div class="item' . (($i == 0) ? ' active' : '') . '">';
 		echo '<img src="'.getPlexURL($movieArt).'" alt="'.$movieTitle.'">';
-		//echo '<div class="carousel-caption">';
-		//echo '<h3>'.$movieTitle.$movieYear.'</h3>';
-		//echo '<p>Summary</p>';
-		//echo '</div>';
+		/*echo '<div class="carousel-caption">';
+		echo '<h3>'.$movieTitle.$movieYear.'</h3>';
+		echo '<p>Summary</p>';
+		echo '</div>';*/
 		echo '</div>'; // Close item div
 		$i++;
 	}
